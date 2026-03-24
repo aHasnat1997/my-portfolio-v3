@@ -1,6 +1,7 @@
 # my-dev-portfolio
 
-This project was created with [Better Fullstack](https://github.com/Marve10s/Better-Fullstack), a modern TypeScript stack that combines Next.js, Self, TS-REST, and more.
+<!-- This project was created with [Better Fullstack](https://github.com/Marve10s/Better-Fullstack), a modern TypeScript stack that combines Next.js, Self, TS-REST, and more. -->
+A modern TypeScript stack that combines Next.js, Self, TS-REST, and more.
 
 ## Features
 
