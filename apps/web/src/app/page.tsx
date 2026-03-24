@@ -25,9 +25,8 @@ export default function Home() {
   ];
 
   const socialItems = [
-    { label: "Twitter", link: "https://twitter.com" },
-    { label: "GitHub", link: "https://github.com" },
-    { label: "LinkedIn", link: "https://linkedin.com" },
+    { label: "GitHub", link: "https://github.com/aHasnat1997" },
+    { label: "LinkedIn", link: "https://www.linkedin.com/in/a-hasnat" },
   ];
 
   return (
@@ -56,9 +55,6 @@ export default function Home() {
       />
 
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-        {/* <h1 className="text-8xl font-extrabold text-white text-center leading-40">
-          👋Hello, I'm <br /> Full-Stack Developer
-        </h1> */}
         <div>
           <BlurText
             text="👋Hello, I'm"
@@ -74,7 +70,7 @@ export default function Home() {
             animateBy="words"
             direction="top"
             // onAnimationComplete={handleAnimationComplete}
-            className="text-8xl font-extrabold text-white text-center leading-40"
+            className="text-6xl font-extrabold text-white text-center leading-40"
           />
         </div>
       </div>

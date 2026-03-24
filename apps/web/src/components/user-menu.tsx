@@ -47,8 +47,8 @@ export default function UserMenu() {
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => (window.location.href = "/dashboard")}>
-          Dashboard
+        <DropdownMenuItem onClick={() => (window.location.href = "/")}>
+          Home
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
