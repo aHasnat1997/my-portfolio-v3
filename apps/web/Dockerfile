@@ -1,51 +1,54 @@
-# Dockerfile for my-dev-portfolio Next.js app
-# Optimized multi-stage build for Docker deployment
+# Dockerfile for my-dev-portfolio Next.js app (Bun workspace monorepo)
 
 FROM node:20-alpine AS base
 
-# Install dependencies only when needed
-FROM base AS deps
 RUN apk add --no-cache libc6-compat
+RUN npm install -g bun
 WORKDIR /app
 
-RUN npm install -g bun
-COPY package.json bun.lock* ./
-RUN bun install --frozen-lockfile
+FROM base AS deps
 
-# Rebuild the source code only when needed
+COPY package.json bun.lock turbo.json tsconfig.json ./
+COPY apps/web/package.json apps/web/package.json
+COPY packages/api/package.json packages/api/package.json
+COPY packages/config/package.json packages/config/package.json
+COPY packages/db/package.json packages/db/package.json
+COPY packages/env/package.json packages/env/package.json
+
+RUN bun install --frozen-lockfile --ignore-scripts
+
 FROM base AS builder
-WORKDIR /app
-
-RUN npm install -g bun
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+RUN bun install --frozen-lockfile --ignore-scripts
+
 # Disable telemetry during build
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN bun run build
+# Build-time defaults (override with --build-arg in CI/CD)
+ARG DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres
+ARG CORS_ORIGIN=http://localhost:3000
+ENV DATABASE_URL=${DATABASE_URL}
+ENV CORS_ORIGIN=${CORS_ORIGIN}
 
-# Production image, copy all the files and run next
+RUN bunx turbo run build --filter=web
+
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
+ENV HOSTNAME=0.0.0.0
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app ./
 
 USER nextjs
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["bun", "--cwd", "apps/web", "run", "start", "--", "--hostname", "0.0.0.0", "--port", "3000"]

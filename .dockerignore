@@ -1,0 +1,14 @@
+.git
+.gitignore
+.vscode
+.turbo
+node_modules
+**/node_modules
+**/.next
+**/dist
+**/.turbo
+**/*.log
+Dockerfile
+docker-compose.yml
+.env
+.env.*
