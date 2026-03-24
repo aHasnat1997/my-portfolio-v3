@@ -1,8 +1,10 @@
 import type { Context } from "../context";
 
-import { contract } from "../index";
+// import { contract } from "../index";
 
 export function createRouter(ctx: Context) {
+  console.log("🚀 ~ index.ts:7 ~ createRouter ~ ctx:", ctx);
+
   return {
     healthCheck: async () => {
       return {

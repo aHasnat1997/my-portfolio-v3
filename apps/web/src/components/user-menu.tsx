@@ -2,10 +2,10 @@
 
 import { useAuthClient } from "@/lib/auth-client";
 
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -21,28 +21,34 @@ export default function UserMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex items-center gap-2">
+      <DropdownMenuTrigger className="inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+        <div className="flex items-center gap-2">
           {user.image ? (
-            <img src={user.image} alt={user.name || "User"} className="h-6 w-6 rounded-full" />
+            <img
+              src={user.image}
+              alt={user.name || "User"}
+              className="h-6 w-6 rounded-full"
+            />
           ) : (
             <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
               {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
             </div>
           )}
           <span className="hidden sm:inline">{user.name || user.email}</span>
-        </Button>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium">{user.name}</p>
-            <p className="text-xs text-muted-foreground">{user.email}</p>
-          </div>
-        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium">{user.name}</p>
+              <p className="text-xs text-muted-foreground">{user.email}</p>
+            </div>
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <a href="/dashboard">Dashboard</a>
+        <DropdownMenuItem onClick={() => (window.location.href = "/dashboard")}>
+          Dashboard
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

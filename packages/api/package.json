@@ -5,6 +5,9 @@
     ".": {
       "default": "./src/index.ts"
     },
+    "./routers": {
+      "default": "./src/routers/index.ts"
+    },
     "./*": {
       "default": "./src/*.ts"
     }

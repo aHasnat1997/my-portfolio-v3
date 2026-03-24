@@ -5,10 +5,14 @@ import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
+const DEV_LOGIN_EMAIL = process.env.DEV_LOGIN_EMAIL ?? "demo@portfolio.dev";
+const DEV_LOGIN_PASSWORD = process.env.DEV_LOGIN_PASSWORD ?? "demo12345";
+const DEV_LOGIN_NAME = process.env.DEV_LOGIN_NAME ?? "Demo User";
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "database",
+    strategy: "jwt",
   },
   providers: [
     // OAuth providers - configure in your .env file
@@ -28,21 +32,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Add your own authentication logic here
-        // This is a placeholder - implement proper password validation
-        if (!credentials?.email || !credentials?.password) {
+        const email = credentials?.email?.toString().trim().toLowerCase();
+        const password = credentials?.password?.toString();
+
+        if (!email || !password) {
           return null;
         }
 
-        // Example: Replace with your actual user lookup and password verification
-        // const user = await db.query.users.findFirst({
-        //   where: eq(users.email, credentials.email),
-        // });
-        // if (user && await verifyPassword(credentials.password, user.password)) {
-        //   return { id: user.id, email: user.email, name: user.name };
-        // }
+        if (email !== DEV_LOGIN_EMAIL || password !== DEV_LOGIN_PASSWORD) {
+          return null;
+        }
 
-        return null;
+        return {
+          id: "demo-user",
+          email: DEV_LOGIN_EMAIL,
+          name: DEV_LOGIN_NAME,
+        };
       },
     }),
   ],

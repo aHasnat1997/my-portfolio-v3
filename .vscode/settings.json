@@ -1,0 +1,8 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "/^cd '/home/night_fury/My Projects/Hasnat_Works/my-dev-portfolio' && bun run build$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
+}
