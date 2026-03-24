@@ -1,0 +1,45 @@
+# Docker Compose for my-dev-portfolio
+# Full-stack container orchestration
+
+name: my-dev-portfolio
+
+services:
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: my-dev-portfolio-web
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - my-dev-portfolio-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: my-dev-portfolio-postgres
+    environment:
+      POSTGRES_DB: my-dev-portfolio
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - my-dev-portfolio_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - my-dev-portfolio-network
+
+networks:
+  my-dev-portfolio-network:
+    driver: bridge
+
+volumes:
+  my-dev-portfolio_postgres_data:

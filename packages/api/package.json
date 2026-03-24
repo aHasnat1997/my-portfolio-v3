@@ -1,0 +1,25 @@
+{
+  "name": "@my-dev-portfolio/api",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@my-dev-portfolio/db": "workspace:*",
+    "@my-dev-portfolio/env": "workspace:*",
+    "@ts-rest/core": "catalog:",
+    "dotenv": "catalog:",
+    "next": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@my-dev-portfolio/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
