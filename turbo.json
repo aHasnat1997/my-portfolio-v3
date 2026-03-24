@@ -5,6 +5,25 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "DATABASE_URL",
+        "CORS_ORIGIN",
+        "AUTH_SECRET",
+        "AUTH_TRUST_HOST",
+        "AUTH_GITHUB_ID",
+        "AUTH_GITHUB_SECRET",
+        "AUTH_GOOGLE_ID",
+        "AUTH_GOOGLE_SECRET",
+        "SMTP_HOST",
+        "SMTP_PORT",
+        "SMTP_SECURE",
+        "SMTP_USER",
+        "SMTP_PASS",
+        "SMTP_FROM_EMAIL",
+        "DEV_LOGIN_EMAIL",
+        "DEV_LOGIN_PASSWORD",
+        "DEV_LOGIN_NAME"
+      ],
       "outputs": ["dist/**", ".next/**"]
     },
     "lint": {
