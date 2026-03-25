@@ -2,20 +2,6 @@ import BlurText from "@/components/BlurText";
 import DarkVeil from "@/components/DarkVeil";
 import StaggeredMenu from "@/components/StaggeredMenu";
 
-//  ██████╗ ███████╗████████╗████████╗███████╗██████╗
-//  ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
-//  ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
-//  ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
-//  ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
-//  ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
-//  ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
-//  ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-//     ██║       ███████╗   ██║   ███████║██║     █████╔╝
-//     ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-//     ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-//     ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
-
 export default function Home() {
   const menuItems = [
     { label: "Home", ariaLabel: "Go to home page", link: "/" },
@@ -46,12 +32,9 @@ export default function Home() {
         socialItems={socialItems}
         displaySocials
         displayItemNumbering={true}
-        // menuButtonColor="#ffffff"
-        // openMenuButtonColor="#fff"
         changeMenuColorOnOpen={true}
         colors={["#B19EEF", "#5227FF"]}
         logoUrl="/logo-white.svg"
-        // accentColor="#5227FF"
       />
 
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">

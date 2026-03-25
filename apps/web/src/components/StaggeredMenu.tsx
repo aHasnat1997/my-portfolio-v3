@@ -500,9 +500,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
           <button
             ref={toggleBtnRef}
-            className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible pointer-events-auto ${
-              open ? "text-black" : "text-[#e9e9ef]"
-            }`}
+            className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible pointer-events-auto `}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="staggered-menu-panel"
@@ -520,7 +518,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               >
                 {textLines.map((l, i) => (
                   <span
-                    className="sm-toggle-line block h-[1em] leading-none"
+                    className={`sm-toggle-line block h-[1em] leading-none ${open ? "text-black" : "text-[#e9e9ef]"}`}
                     key={i}
                   >
                     {l}
@@ -531,7 +529,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
             <span
               ref={iconRef}
-              className="sm-icon relative w-3.5 h-3.5 shrink-0 inline-flex items-center justify-center will-change-transform"
+              className={`sm-icon relative w-3.5 h-3.5 shrink-0 inline-flex items-center justify-center will-change-transform ${open ? "text-black" : "text-[#e9e9ef]"}`}
               aria-hidden="true"
             >
               <span
