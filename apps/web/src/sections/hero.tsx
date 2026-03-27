@@ -1,6 +1,7 @@
 import BlurText from "@/components/BlurText";
 import DarkVeil from "@/components/DarkVeil";
 import StaggeredMenu from "@/components/StaggeredMenu";
+// import TextType from "@/components/TextType";
 
 export default function Hero() {
   const menuItems = [
@@ -38,23 +39,37 @@ export default function Hero() {
       />
 
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-        <div>
+        <div className="max-w-4xl space-y-8">
           <BlurText
-            text="👋Hello, I'm"
+            text="Builder of Scalable Web Applications & Platforms"
             delay={200}
             animateBy="words"
-            direction="top"
-            // onAnimationComplete={handleAnimationComplete}
-            className="text-8xl font-extrabold text-white text-center leading-40"
+            direction="bottom"
+            className="text-4xl font-extrabold text-white text-center"
           />
+
           <BlurText
-            text="Full-Stack Developer"
-            delay={350}
+            text="I am a Node.js Developer with 2+ years of experience specializing in building scalable web applications and cloud deployment. I help businesses build fast, secure, and production-ready applications."
+            delay={200}
             animateBy="words"
-            direction="top"
-            // onAnimationComplete={handleAnimationComplete}
-            className="text-6xl font-extrabold text-white text-center leading-40"
+            direction="bottom"
+            className="text-2xl text-white"
           />
+
+          {/* <TextType
+            text={[
+              "I am a Node.js Developer with 2+ years of experience specializing in building scalable web applications and cloud deployment. I help businesses build fast, secure, and production-ready applications.",
+            ]}
+            className="text-2xl text-white"
+            loop={false}
+            typingSpeed={20}
+            pauseDuration={1500}
+            showCursor
+            cursorCharacter="█"
+            cursorClassName={"text-[#FFFFFF]"}
+            deletingSpeed={50}
+            cursorBlinkDuration={0.5}
+          /> */}
         </div>
       </div>
     </section>
