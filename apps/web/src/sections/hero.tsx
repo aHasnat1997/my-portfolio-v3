@@ -1,6 +1,8 @@
 import BlurText from "@/components/BlurText";
 import DarkVeil from "@/components/DarkVeil";
 import StaggeredMenu from "@/components/StaggeredMenu";
+// import Image from "next/image";
+// import MyImage from "../../public/my-image2.png";
 // import TextType from "@/components/TextType";
 
 export default function Hero() {
@@ -38,39 +40,58 @@ export default function Hero() {
         logoUrl="/logo-white.svg"
       />
 
-      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-        <div className="max-w-4xl space-y-8">
-          <BlurText
-            text="Builder of Scalable Web Applications & Platforms"
-            delay={200}
-            animateBy="words"
-            direction="bottom"
-            className="text-4xl font-extrabold text-white text-center"
-          />
+      <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center">
+        {/* <BlurText
+          text="A HASNAT"
+          delay={0}
+          animateBy="words"
+          direction="bottom"
+          className="text-[12rem] font-extrabold text-white"
+        /> */}
+
+        <div className="space-y-8 w-1/2 mx-auto">
+          <div>
+            <BlurText
+              text="Builder of Scalable Web"
+              delay={200}
+              animateBy="words"
+              direction="bottom"
+              className="text-[4rem] text-white font-extrabold leading-relaxed"
+            />
+
+            <BlurText
+              text="Applications & Platforms"
+              delay={200}
+              animateBy="words"
+              direction="bottom"
+              className="text-[4rem] text-white font-extrabold leading-relaxed"
+            />
+          </div>
 
           <BlurText
             text="I am a Node.js Developer with 2+ years of experience specializing in building scalable web applications and cloud deployment. I help businesses build fast, secure, and production-ready applications."
             delay={200}
             animateBy="words"
             direction="bottom"
-            className="text-2xl text-white"
+            className="text-lg text-gray-300 leading-relaxed"
           />
 
-          {/* <TextType
-            text={[
-              "I am a Node.js Developer with 2+ years of experience specializing in building scalable web applications and cloud deployment. I help businesses build fast, secure, and production-ready applications.",
-            ]}
-            className="text-2xl text-white"
-            loop={false}
-            typingSpeed={20}
-            pauseDuration={1500}
-            showCursor
-            cursorCharacter="█"
-            cursorClassName={"text-[#FFFFFF]"}
-            deletingSpeed={50}
-            cursorBlinkDuration={0.5}
-          /> */}
+          <div>
+            <button className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-colors duration-300 cursor-pointer relative z-50">
+              Explore My Work
+            </button>
+          </div>
         </div>
+
+        {/* <div className="absolute bottom-0 right-0">
+          <Image
+            src={MyImage}
+            alt="A Hasnat - Full Stack Developer"
+            className="w-full h-200"
+            width={500}
+            height={500}
+          />
+        </div> */}
       </div>
     </section>
   );
