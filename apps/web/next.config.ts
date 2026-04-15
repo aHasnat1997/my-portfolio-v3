@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
-  reactCompiler: true,
+  // Disabled due to incompatibility with esbuild minification in Cloudflare Workers
+  // reactCompiler: true,
 };
 
 export default nextConfig;
