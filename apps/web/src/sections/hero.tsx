@@ -18,7 +18,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden">
+    <section className="relative w-full min-h-[100svh] h-[100svh] overflow-hidden">
       <DarkVeil
         hueShift={0}
         noiseIntensity={0}

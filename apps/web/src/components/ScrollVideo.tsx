@@ -77,31 +77,14 @@ export default function ScrollVideo({ src }: { src: string }) {
     let unlocked = false;
     let isSeeking = false;
     let pendingTime = -1;
-    let touchStartY = 0;
     let lastScrollY = window.scrollY;
-    let isBodyLocked = false;
-    let prevBodyOverflow = "";
-    let prevBodyPaddingRight = "";
-    const TOTAL = 3000;
+    let lastTouchY = 0;
+    let lockRaf = 0;
 
     const lock = () => {
-      if (isBodyLocked) return;
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      prevBodyOverflow = document.body.style.overflow;
-      prevBodyPaddingRight = document.body.style.paddingRight;
-      document.body.style.overflow = "hidden";
-      if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-      }
-      isBodyLocked = true;
+      unlocked = false;
     };
     const unlock = () => {
-      if (isBodyLocked) {
-        document.body.style.overflow = prevBodyOverflow;
-        document.body.style.paddingRight = prevBodyPaddingRight;
-        isBodyLocked = false;
-      }
       unlocked = true;
       window.dispatchEvent(new CustomEvent("videoProgress", { detail: 1 }));
     };
@@ -211,64 +194,134 @@ export default function ScrollVideo({ src }: { src: string }) {
       }
     };
 
-    const onWheel = (e: WheelEvent) => {
-      if (unlocked) return;
-      e.preventDefault();
-      let delta = e.deltaY;
-      if (e.deltaMode === 1) delta *= 32;
-      if (e.deltaMode === 2) delta *= window.innerHeight;
-      delta = Math.max(-100, Math.min(100, delta));
-      virtualScroll = Math.min(Math.max(virtualScroll + delta / TOTAL, 0), 1);
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      if (unlocked) return;
-      e.preventDefault();
-      const delta = touchStartY - e.touches[0].clientY;
-      touchStartY = e.touches[0].clientY;
-      virtualScroll = Math.min(Math.max(virtualScroll + delta / TOTAL, 0), 1);
-    };
-
-    const onScroll = () => {
-      if (!unlocked) {
-        lastScrollY = window.scrollY;
-        return;
-      }
+    const getHeroMetrics = () => {
       const container = containerRef.current;
-      if (!container) {
-        lastScrollY = window.scrollY;
-        return;
-      }
+      if (!container) return null;
 
       const currentScrollY = window.scrollY;
       const rect = container.getBoundingClientRect();
       const heroHeight = rect.height || window.innerHeight;
       const heroTop = rect.top + currentScrollY;
       const heroBottom = heroTop + heroHeight;
+      const totalDistance = Math.max(heroHeight, 1);
+
+      return {
+        currentScrollY,
+        heroHeight,
+        heroTop,
+        heroBottom,
+        totalDistance,
+      };
+    };
+
+    const snapToHeroTop = (heroTop: number) => {
+      if (lockRaf) return;
+      lockRaf = requestAnimationFrame(() => {
+        window.scrollTo({ top: heroTop });
+        lockRaf = 0;
+      });
+    };
+
+    const applyDelta = (
+      delta: number,
+      metrics: NonNullable<ReturnType<typeof getHeroMetrics>>,
+    ) => {
+      virtualScroll = Math.min(
+        Math.max(virtualScroll + delta / metrics.totalDistance, 0),
+        1,
+      );
+
+      if (virtualScroll >= 0.99) {
+        unlock();
+        window.scrollTo({ top: metrics.heroTop + metrics.heroHeight });
+      }
+    };
+
+    const onScroll = () => {
+      if (!unlocked) {
+        const metrics = getHeroMetrics();
+        if (!metrics) {
+          lastScrollY = window.scrollY;
+          return;
+        }
+        const delta = metrics.currentScrollY - lastScrollY;
+        if (delta !== 0) {
+          applyDelta(delta, metrics);
+        }
+        if (Math.abs(metrics.currentScrollY - metrics.heroTop) > 1) {
+          snapToHeroTop(metrics.heroTop);
+        }
+        lastScrollY = metrics.currentScrollY;
+        return;
+      }
+      const metrics = getHeroMetrics();
+      if (!metrics) {
+        lastScrollY = window.scrollY;
+        return;
+      }
+
       const progress = Math.min(
-        Math.max((currentScrollY - heroTop) / heroHeight, 0),
+        Math.max(
+          (metrics.currentScrollY - metrics.heroTop) / metrics.heroHeight,
+          0,
+        ),
         1,
       );
       const isWithinHero =
-        currentScrollY >= heroTop && currentScrollY <= heroBottom;
+        metrics.currentScrollY >= metrics.heroTop &&
+        metrics.currentScrollY <= metrics.heroBottom;
 
-      if (currentScrollY < lastScrollY && isWithinHero && progress < 0.99) {
-        unlocked = false;
+      if (
+        metrics.currentScrollY < lastScrollY &&
+        isWithinHero &&
+        progress < 0.99
+      ) {
         lock();
         virtualScroll = progress;
         smoothScroll = progress;
+        lastScrollY = metrics.currentScrollY;
+        snapToHeroTop(metrics.heroTop);
+        return;
       }
 
-      if (currentScrollY > lastScrollY) {
+      if (metrics.currentScrollY > lastScrollY) {
         virtualScroll = Math.max(virtualScroll, progress);
-      } else if (currentScrollY < lastScrollY) {
+      } else if (metrics.currentScrollY < lastScrollY) {
         virtualScroll = Math.min(virtualScroll, progress);
       }
 
-      lastScrollY = currentScrollY;
+      lastScrollY = metrics.currentScrollY;
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (unlocked) return;
+      const metrics = getHeroMetrics();
+      if (!metrics) return;
+
+      event.preventDefault();
+      applyDelta(event.deltaY, metrics);
+      snapToHeroTop(metrics.heroTop);
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      if (unlocked) return;
+      if (event.touches.length > 0) {
+        lastTouchY = event.touches[0]?.clientY ?? 0;
+      }
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (unlocked) return;
+      const metrics = getHeroMetrics();
+      if (!metrics || event.touches.length === 0) return;
+
+      const currentY = event.touches[0]?.clientY ?? 0;
+      const delta = lastTouchY - currentY;
+      lastTouchY = currentY;
+
+      event.preventDefault();
+      applyDelta(delta, metrics);
+      snapToHeroTop(metrics.heroTop);
     };
 
     const tick = () => {
@@ -305,10 +358,10 @@ export default function ScrollVideo({ src }: { src: string }) {
     video.addEventListener("seeked", onSeeked);
     video.addEventListener("loadeddata", onLoadedData);
     window.addEventListener("resize", onResize);
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("scroll", onScroll, { passive: true });
     rafId = requestAnimationFrame(tick);
 
     if (video.readyState >= 2) {
@@ -318,11 +371,6 @@ export default function ScrollVideo({ src }: { src: string }) {
     return () => {
       cancelAnimationFrame(rafId);
       clearTimeout(seekTimeout);
-      if (isBodyLocked) {
-        document.body.style.overflow = prevBodyOverflow;
-        document.body.style.paddingRight = prevBodyPaddingRight;
-        isBodyLocked = false;
-      }
       virtualScroll = 0;
       smoothScroll = 0;
       unlocked = false;
@@ -331,10 +379,10 @@ export default function ScrollVideo({ src }: { src: string }) {
       video.removeEventListener("seeked", onSeeked);
       video.removeEventListener("loadeddata", onLoadedData);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("scroll", onScroll);
       if (tex) gl.deleteTexture(tex);
       if (buf) gl.deleteBuffer(buf);
       if (prog) gl.deleteProgram(prog);
