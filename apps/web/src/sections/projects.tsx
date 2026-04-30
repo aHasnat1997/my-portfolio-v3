@@ -1,4 +1,5 @@
 import { ExternalLink, Github } from "lucide-react";
+import Link from "next/link";
 
 export default function Projects() {
   const projects = [
@@ -10,6 +11,8 @@ export default function Projects() {
       tags: ["Next.js", "TypeScript", "PostgreSQL", "Real-time"],
       status: "In Development",
       image: "🏗️",
+      liveUrl: "https://example.com",
+      repoUrl: "https://github.com/aHasnat1997",
     },
     {
       id: 2,
@@ -19,6 +22,8 @@ export default function Projects() {
       tags: ["Node.js", "Express", "MongoDB", "Redis"],
       status: "Completed",
       image: "⚙️",
+      liveUrl: "https://example.com",
+      repoUrl: "https://github.com/aHasnat1997",
     },
     {
       id: 3,
@@ -28,11 +33,16 @@ export default function Projects() {
       tags: ["Next.js", "Prisma", "S3 Storage", "Auth"],
       status: "Completed",
       image: "📁",
+      liveUrl: "https://example.com",
+      repoUrl: "https://github.com/aHasnat1997",
     },
   ];
 
   return (
-    <section className="relative w-full min-h-screen bg-black py-20 px-4 sm:px-8 lg:px-16">
+    <section
+      id="projects"
+      className="relative w-full min-h-screen bg-black py-20 px-4 sm:px-8 lg:px-16"
+    >
       {/* Background gradient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl opacity-40"></div>
@@ -100,14 +110,24 @@ export default function Projects() {
 
                 {/* Action Links */}
                 <div className="flex gap-3 pt-4 border-t border-slate-700">
-                  <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium">
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium"
+                  >
                     <ExternalLink className="w-4 h-4" />
                     View
-                  </button>
-                  <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors text-sm font-medium">
+                  </a>
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors text-sm font-medium"
+                  >
                     <Github className="w-4 h-4" />
                     Code
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -116,9 +136,12 @@ export default function Projects() {
 
         {/* View All Projects Link */}
         <div className="text-center mt-16">
-          <button className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
+          <Link
+            href={{ pathname: "/", hash: "projects" }}
+            className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 inline-block"
+          >
             View All Projects
-          </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -39,9 +39,11 @@ export default function ScrollVideo({ src }: { src: string }) {
       gl.compileShader(sh);
       return sh;
     };
+    const vertShader = compile(gl.VERTEX_SHADER, VERT);
+    const fragShader = compile(gl.FRAGMENT_SHADER, FRAG);
     const prog = gl.createProgram()!;
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, vertShader);
+    gl.attachShader(prog, fragShader);
     gl.linkProgram(prog);
     gl.useProgram(prog);
 
@@ -88,13 +90,50 @@ export default function ScrollVideo({ src }: { src: string }) {
 
     lock();
 
-    const drawFrame = () => {
-      if (video.readyState < 2) return;
-      if (canvas.width !== video.videoWidth) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+    let hasDrawnFirstFrame = false;
+    const resizeCanvas = () => {
+      if (!video.videoWidth || !video.videoHeight) return;
+
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.left = "0px";
+      canvas.style.top = "0px";
+
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      const videoAspect = video.videoWidth / video.videoHeight;
+      const containerAspect = rect.width / rect.height;
+      let displayWidth = rect.width;
+      let displayHeight = rect.height;
+
+      if (containerAspect > videoAspect) {
+        displayWidth = rect.width;
+        displayHeight = rect.width / videoAspect;
+      } else {
+        displayHeight = rect.height;
+        displayWidth = rect.height * videoAspect;
+      }
+
+      canvas.style.width = `${displayWidth}px`;
+      canvas.style.height = `${displayHeight}px`;
+      canvas.style.left = `${(rect.width - displayWidth) / 2}px`;
+      canvas.style.top = `${(rect.height - displayHeight) / 2}px`;
+
+      const dpr = window.devicePixelRatio || 1;
+      const bufferWidth = Math.max(1, Math.round(displayWidth * dpr));
+      const bufferHeight = Math.max(1, Math.round(displayHeight * dpr));
+
+      if (canvas.width !== bufferWidth || canvas.height !== bufferHeight) {
+        canvas.width = bufferWidth;
+        canvas.height = bufferHeight;
         gl.viewport(0, 0, canvas.width, canvas.height);
       }
+    };
+
+    const drawFrame = () => {
+      if (video.readyState < 2) return;
+      resizeCanvas();
       gl.texImage2D(
         gl.TEXTURE_2D,
         0,
@@ -104,6 +143,7 @@ export default function ScrollVideo({ src }: { src: string }) {
         video,
       );
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      hasDrawnFirstFrame = true;
     };
 
     // after seek completes, draw — and if another seek is pending, do it now
@@ -165,25 +205,59 @@ export default function ScrollVideo({ src }: { src: string }) {
         if (smoothScroll >= 0.99 && !unlocked) unlock();
       }
 
+      if (!hasDrawnFirstFrame && video.readyState >= 2) {
+        drawFrame();
+      }
+
       rafId = requestAnimationFrame(tick);
     };
 
+    const onLoadedData = () => {
+      resizeCanvas();
+      drawFrame();
+    };
+
+    const onResize = () => {
+      resizeCanvas();
+      if (video.readyState >= 2) {
+        drawFrame();
+      }
+    };
+
     video.addEventListener("seeked", onSeeked);
+    video.addEventListener("loadeddata", onLoadedData);
+    window.addEventListener("resize", onResize);
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     rafId = requestAnimationFrame(tick);
 
+    if (video.readyState >= 2) {
+      onLoadedData();
+    }
+
     return () => {
       cancelAnimationFrame(rafId);
       clearTimeout(seekTimeout);
       document.body.style.overflow = "";
+      virtualScroll = 0;
+      smoothScroll = 0;
+      unlocked = false;
+      isSeeking = false;
+      pendingTime = -1;
       video.removeEventListener("seeked", onSeeked);
+      video.removeEventListener("loadeddata", onLoadedData);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
+      if (tex) gl.deleteTexture(tex);
+      if (buf) gl.deleteBuffer(buf);
+      if (prog) gl.deleteProgram(prog);
+      if (vertShader) gl.deleteShader(vertShader);
+      if (fragShader) gl.deleteShader(fragShader);
     };
-  }, []);
+  }, [src]);
 
   return (
     <>
@@ -198,7 +272,6 @@ export default function ScrollVideo({ src }: { src: string }) {
       <canvas
         ref={canvasRef}
         className="absolute z-50 inset-0 w-full h-full"
-        style={{ objectFit: "cover" }}
         suppressHydrationWarning
       />
     </>

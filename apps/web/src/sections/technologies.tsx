@@ -44,9 +44,9 @@ export default function Technologies() {
           {techCategories.map((category, index) => (
             <div
               key={index}
-              className="group relative bg-linear-to-br from-purple-950/20 to-black border border-purple-900/30 rounded-lg p-6 hover:border-purple-500/50 transition-all duration-300"
+              className="group relative bg-gradient-to-br from-purple-950/20 to-black border border-purple-900/30 rounded-lg p-6 hover:border-purple-500/50 transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-linear-to-br from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:to-purple-500/5 rounded-lg transition-all duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-purple-500/0 group-hover:from-purple-500/5 group-hover:to-purple-500/5 rounded-lg transition-all duration-300"></div>
 
               <div className="relative">
                 <div className="text-3xl mb-4">{category.icon}</div>

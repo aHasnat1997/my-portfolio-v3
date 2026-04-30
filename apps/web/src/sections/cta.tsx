@@ -1,6 +1,11 @@
+"use client";
+
 import { ArrowRight, Mail, Linkedin, Github } from "lucide-react";
 
 export default function CTA() {
+  // TODO: Add the resume file at /public/resume.pdf.
+  const resumeHref = "/resume.pdf";
+
   return (
     <section className="relative w-full min-h-screen bg-black py-20 px-4 sm:px-8 lg:px-16 flex items-center">
       {/* Background gradient effects */}
@@ -13,7 +18,7 @@ export default function CTA() {
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Let's Build Something
-            <span className="block text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-green-400">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-green-400">
               Great Together
             </span>
           </h2>
@@ -26,19 +31,30 @@ export default function CTA() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-          <button className="px-8 py-4 bg-linear-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group">
+          <button
+            className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group"
+            onClick={() => {
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
             Get In Touch
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
-          <button className="px-8 py-4 border-2 border-gray-600 hover:border-gray-400 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-gray-900">
+          <a
+            href={resumeHref}
+            download
+            className="px-8 py-4 border-2 border-gray-600 hover:border-gray-400 text-white font-semibold rounded-lg transition-all duration-300 hover:bg-gray-900 text-center"
+          >
             Download Resume
-          </button>
+          </a>
         </div>
 
         {/* Contact Options */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {/* Email */}
-          <div className="bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-lg p-8 hover:border-yellow-500/30 transition-all duration-300 text-center group">
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-lg p-8 hover:border-yellow-500/30 transition-all duration-300 text-center group">
             <div className="flex justify-center mb-4">
               <div className="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center group-hover:bg-yellow-500/20 transition-colors">
                 <Mail className="w-6 h-6 text-yellow-400" />
@@ -54,7 +70,7 @@ export default function CTA() {
           </div>
 
           {/* LinkedIn */}
-          <div className="bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-lg p-8 hover:border-blue-500/30 transition-all duration-300 text-center group">
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-lg p-8 hover:border-blue-500/30 transition-all duration-300 text-center group">
             <div className="flex justify-center mb-4">
               <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
                 <Linkedin className="w-6 h-6 text-blue-400" />
@@ -72,7 +88,7 @@ export default function CTA() {
           </div>
 
           {/* GitHub */}
-          <div className="bg-linear-to-br from-gray-900 to-black border border-gray-800 rounded-lg p-8 hover:border-gray-400/30 transition-all duration-300 text-center group">
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-lg p-8 hover:border-gray-400/30 transition-all duration-300 text-center group">
             <div className="flex justify-center mb-4">
               <div className="w-12 h-12 bg-gray-500/10 rounded-lg flex items-center justify-center group-hover:bg-gray-500/20 transition-colors">
                 <Github className="w-6 h-6 text-gray-400" />

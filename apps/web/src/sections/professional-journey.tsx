@@ -33,6 +33,9 @@ export default function ProfessionalJourney() {
     { category: "Database Design", level: 90 },
   ];
 
+  const clampLevel = (value: number) =>
+    Math.max(0, Math.min(100, Math.round(value)));
+
   return (
     <section className="relative w-full min-h-screen bg-black py-20 px-4 sm:px-8 lg:px-16">
       {/* Background gradient effects */}
@@ -101,24 +104,32 @@ export default function ProfessionalJourney() {
               Skills Proficiency
             </h3>
 
-            {skills.map((skill, index) => (
-              <div key={index} className="mb-8">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-white font-medium">
-                    {skill.category}
-                  </span>
-                  <span className="text-indigo-400 text-sm">
-                    {skill.level}%
-                  </span>
+            {skills.map((skill, index) => {
+              const normalizedLevel = clampLevel(skill.level);
+              return (
+                <div key={index} className="mb-8">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-white font-medium">
+                      {skill.category}
+                    </span>
+                    <span className="text-indigo-400 text-sm">
+                      {normalizedLevel}%
+                    </span>
+                  </div>
+                  <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-linear-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={normalizedLevel}
+                      aria-label={`${skill.category} proficiency ${normalizedLevel}%`}
+                      style={{ width: `${normalizedLevel}%` }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-linear-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
 
             <div className="mt-12 p-6 bg-indigo-500/5 border border-indigo-400/30 rounded-lg">
               <p className="text-gray-300 text-sm">

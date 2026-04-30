@@ -2,6 +2,7 @@ import BlurText from "@/components/BlurText";
 import DarkVeil from "@/components/DarkVeil";
 import StaggeredMenu from "@/components/StaggeredMenu";
 import ScrollVideo from "@/components/ScrollVideo";
+import Link from "next/link";
 
 export default function Hero() {
   const menuItems = [
@@ -18,62 +19,65 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-screen">
-        <DarkVeil
-          hueShift={0}
-          noiseIntensity={0}
-          scanlineIntensity={0}
-          speed={0.5}
-          scanlineFrequency={0}
-          warpAmount={0.6}
-        />
-        <StaggeredMenu
-          isFixed={true}
-          position="right"
-          items={menuItems}
-          socialItems={socialItems}
-          displaySocials
-          displayItemNumbering={true}
-          changeMenuColorOnOpen={true}
-          colors={["#B19EEF", "#5227FF"]}
-          logoUrl="/logo-white.svg"
-        />
+      <DarkVeil
+        hueShift={0}
+        noiseIntensity={0}
+        scanlineIntensity={0}
+        speed={0.5}
+        scanlineFrequency={0}
+        warpAmount={0.6}
+      />
+      <StaggeredMenu
+        isFixed={true}
+        position="right"
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials
+        displayItemNumbering={true}
+        changeMenuColorOnOpen={true}
+        colors={["#B19EEF", "#5227FF"]}
+        logoUrl="/logo-white.svg"
+      />
 
-        <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center">
-          <div className="space-y-8 w-1/2 mx-auto">
-            <div>
-              <BlurText
-                text="Builder of Scalable Web"
-                delay={200}
-                animateBy="words"
-                direction="bottom"
-                className="text-[4rem] text-white font-extrabold leading-relaxed"
-              />
-              <BlurText
-                text="Applications & Platforms"
-                delay={200}
-                animateBy="words"
-                direction="bottom"
-                className="text-[4rem] text-white font-extrabold leading-relaxed"
-              />
-            </div>
-
+      <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center">
+        <div className="space-y-6 sm:space-y-8 w-full sm:w-3/4 md:w-1/2 mx-auto px-4 sm:px-0">
+          <div>
             <BlurText
-              text="I am a Node.js Developer with 2+ years of experience specializing in building scalable web applications and cloud deployment. I help businesses build fast, secure, and production-ready applications."
+              text="Builder of Scalable Web"
               delay={200}
               animateBy="words"
               direction="bottom"
-              className="text-lg text-gray-300 leading-relaxed"
+              className="text-2xl sm:text-4xl lg:text-[4rem] text-white font-extrabold leading-tight sm:leading-relaxed"
             />
-
-            <div>
-              <button className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-colors duration-300 cursor-pointer relative z-50">
-                Explore My Work
-              </button>
-            </div>
+            <BlurText
+              text="Applications & Platforms"
+              delay={200}
+              animateBy="words"
+              direction="bottom"
+              className="text-2xl sm:text-4xl lg:text-[4rem] text-white font-extrabold leading-tight sm:leading-relaxed"
+            />
           </div>
 
-          <ScrollVideo src="/170358-843059274.mp4" />
+          <BlurText
+            text="I am a Node.js Developer with 2+ years of experience specializing in building scalable web applications and cloud deployment. I help businesses build fast, secure, and production-ready applications."
+            delay={200}
+            animateBy="words"
+            direction="bottom"
+            className="text-lg text-gray-300 leading-relaxed"
+          />
+
+          <div>
+            <Link
+              href={{ pathname: "/", hash: "projects" }}
+              className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-colors duration-300 cursor-pointer relative z-50 inline-block"
+            >
+              Explore My Work
+            </Link>
+          </div>
         </div>
+
+        <ScrollVideo src="/170358-843059274.mp4" />
+      </div>
     </section>
   );
 }

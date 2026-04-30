@@ -96,9 +96,10 @@ const TextType = ({
   }, [startOnVisible]);
 
   useEffect(() => {
+    let blinkTween: gsap.core.Tween | undefined;
     if (showCursor && cursorRef.current) {
       gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
+      blinkTween = gsap.to(cursorRef.current, {
         opacity: 0,
         duration: cursorBlinkDuration,
         repeat: -1,
@@ -106,6 +107,9 @@ const TextType = ({
         ease: "power2.inOut",
       });
     }
+    return () => {
+      blinkTween?.kill();
+    };
   }, [showCursor, cursorBlinkDuration]);
 
   useEffect(() => {
@@ -130,9 +134,10 @@ const TextType = ({
             onSentenceComplete(textArray[currentTextIndex], currentTextIndex);
           }
 
-          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
-          setCurrentCharIndex(0);
-          timeout = setTimeout(() => {}, pauseDuration);
+          timeout = setTimeout(() => {
+            setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
+            setCurrentCharIndex(0);
+          }, pauseDuration);
         } else {
           timeout = setTimeout(() => {
             setDisplayedText((prev) => prev.slice(0, -1));
@@ -180,6 +185,7 @@ const TextType = ({
     reverseMode,
     variableSpeed,
     onSentenceComplete,
+    getRandomSpeed,
   ]);
 
   const shouldHideCursor =
