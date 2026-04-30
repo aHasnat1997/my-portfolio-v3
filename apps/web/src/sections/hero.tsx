@@ -18,7 +18,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative w-full h-screen">
+    <section className="relative w-full min-h-screen overflow-hidden">
       <DarkVeil
         hueShift={0}
         noiseIntensity={0}
@@ -39,7 +39,7 @@ export default function Hero() {
         logoUrl="/logo-white.svg"
       />
 
-      <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center">
+      <div className="absolute inset-0 w-full h-full flex items-center justify-center">
         <div className="space-y-6 sm:space-y-8 w-full sm:w-3/4 md:w-1/2 mx-auto px-4 sm:px-0">
           <div>
             <BlurText
@@ -76,7 +76,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <ScrollVideo src="/170358-843059274.mp4" />
+        <ScrollVideo src="/laptop.mp4" />
       </div>
     </section>
   );

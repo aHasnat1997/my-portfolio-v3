@@ -24,6 +24,7 @@ void main() {
 export default function ScrollVideo({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -77,15 +78,52 @@ export default function ScrollVideo({ src }: { src: string }) {
     let isSeeking = false;
     let pendingTime = -1;
     let touchStartY = 0;
+    let lastScrollY = window.scrollY;
+    let isBodyLocked = false;
+    let prevBodyOverflow = "";
+    let prevBodyPaddingRight = "";
     const TOTAL = 3000;
 
     const lock = () => {
+      if (isBodyLocked) return;
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      prevBodyOverflow = document.body.style.overflow;
+      prevBodyPaddingRight = document.body.style.paddingRight;
       document.body.style.overflow = "hidden";
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+      isBodyLocked = true;
     };
     const unlock = () => {
-      document.body.style.overflow = "";
+      if (isBodyLocked) {
+        document.body.style.overflow = prevBodyOverflow;
+        document.body.style.paddingRight = prevBodyPaddingRight;
+        isBodyLocked = false;
+      }
       unlocked = true;
       window.dispatchEvent(new CustomEvent("videoProgress", { detail: 1 }));
+    };
+
+    const syncInitialLockState = () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const currentScrollY = window.scrollY;
+      const rect = container.getBoundingClientRect();
+      const heroHeight = rect.height || window.innerHeight;
+      const heroTop = rect.top + currentScrollY;
+      const heroBottom = heroTop + heroHeight;
+
+      if (currentScrollY > heroBottom) {
+        unlock();
+        virtualScroll = 1;
+        smoothScroll = 1;
+        if (video.duration) {
+          seekTo(video.duration);
+        }
+      }
     };
 
     lock();
@@ -194,6 +232,45 @@ export default function ScrollVideo({ src }: { src: string }) {
       virtualScroll = Math.min(Math.max(virtualScroll + delta / TOTAL, 0), 1);
     };
 
+    const onScroll = () => {
+      if (!unlocked) {
+        lastScrollY = window.scrollY;
+        return;
+      }
+      const container = containerRef.current;
+      if (!container) {
+        lastScrollY = window.scrollY;
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+      const rect = container.getBoundingClientRect();
+      const heroHeight = rect.height || window.innerHeight;
+      const heroTop = rect.top + currentScrollY;
+      const heroBottom = heroTop + heroHeight;
+      const progress = Math.min(
+        Math.max((currentScrollY - heroTop) / heroHeight, 0),
+        1,
+      );
+      const isWithinHero =
+        currentScrollY >= heroTop && currentScrollY <= heroBottom;
+
+      if (currentScrollY < lastScrollY && isWithinHero && progress < 0.99) {
+        unlocked = false;
+        lock();
+        virtualScroll = progress;
+        smoothScroll = progress;
+      }
+
+      if (currentScrollY > lastScrollY) {
+        virtualScroll = Math.max(virtualScroll, progress);
+      } else if (currentScrollY < lastScrollY) {
+        virtualScroll = Math.min(virtualScroll, progress);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
     const tick = () => {
       smoothScroll += (virtualScroll - smoothScroll) * 0.1;
 
@@ -215,6 +292,7 @@ export default function ScrollVideo({ src }: { src: string }) {
     const onLoadedData = () => {
       resizeCanvas();
       drawFrame();
+      syncInitialLockState();
     };
 
     const onResize = () => {
@@ -230,6 +308,7 @@ export default function ScrollVideo({ src }: { src: string }) {
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("scroll", onScroll, { passive: true });
     rafId = requestAnimationFrame(tick);
 
     if (video.readyState >= 2) {
@@ -239,7 +318,11 @@ export default function ScrollVideo({ src }: { src: string }) {
     return () => {
       cancelAnimationFrame(rafId);
       clearTimeout(seekTimeout);
-      document.body.style.overflow = "";
+      if (isBodyLocked) {
+        document.body.style.overflow = prevBodyOverflow;
+        document.body.style.paddingRight = prevBodyPaddingRight;
+        isBodyLocked = false;
+      }
       virtualScroll = 0;
       smoothScroll = 0;
       unlocked = false;
@@ -251,6 +334,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("scroll", onScroll);
       if (tex) gl.deleteTexture(tex);
       if (buf) gl.deleteBuffer(buf);
       if (prog) gl.deleteProgram(prog);
@@ -260,7 +344,10 @@ export default function ScrollVideo({ src }: { src: string }) {
   }, [src]);
 
   return (
-    <>
+    <div
+      ref={containerRef}
+      className="absolute inset-0 w-full h-full overflow-hidden"
+    >
       <video
         ref={videoRef}
         src={src}
@@ -274,6 +361,6 @@ export default function ScrollVideo({ src }: { src: string }) {
         className="absolute z-50 inset-0 w-full h-full"
         suppressHydrationWarning
       />
-    </>
+    </div>
   );
 }
