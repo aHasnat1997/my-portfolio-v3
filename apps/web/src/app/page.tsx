@@ -4,16 +4,20 @@ import Technologies from "@/sections/technologies";
 import Projects from "@/sections/projects";
 import ProfessionalJourney from "@/sections/professional-journey";
 import CTA from "@/sections/cta";
+import AfterVideo from "@/components/AfterVideo";
 
 export default function Home() {
   return (
     <main className="w-full overflow-x-hidden">
       <Hero />
-      <Solutions />
-      <Technologies />
-      <Projects />
-      <ProfessionalJourney />
-      <CTA />
+
+      <AfterVideo>
+        <Solutions />
+        <Technologies />
+        <Projects />
+        <ProfessionalJourney />
+        <CTA />
+      </AfterVideo>
     </main>
   );
 }
