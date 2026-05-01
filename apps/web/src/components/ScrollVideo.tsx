@@ -214,9 +214,12 @@ export default function ScrollVideo({ src }: { src: string }) {
       };
     };
 
+    let isSnapping = false;
+
     const snapToHeroTop = (heroTop: number) => {
       if (lockRaf) return;
       lockRaf = requestAnimationFrame(() => {
+        isSnapping = true;
         window.scrollTo({ top: heroTop });
         lockRaf = 0;
       });
@@ -238,6 +241,11 @@ export default function ScrollVideo({ src }: { src: string }) {
     };
 
     const onScroll = () => {
+      if (isSnapping) {
+        isSnapping = false;
+        lastScrollY = window.scrollY;
+        return;
+      }
       if (!unlocked) {
         const metrics = getHeroMetrics();
         if (!metrics) {
@@ -245,7 +253,7 @@ export default function ScrollVideo({ src }: { src: string }) {
           return;
         }
         const delta = metrics.currentScrollY - lastScrollY;
-        if (delta !== 0) {
+        if (delta > 0) {
           applyDelta(delta, metrics);
         }
         if (Math.abs(metrics.currentScrollY - metrics.heroTop) > 1) {
