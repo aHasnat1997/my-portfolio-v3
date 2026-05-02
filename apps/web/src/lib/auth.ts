@@ -1,5 +1,3 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@my-dev-portfolio/db";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
@@ -10,7 +8,6 @@ const DEV_LOGIN_PASSWORD = process.env.DEV_LOGIN_PASSWORD ?? "demo12345";
 const DEV_LOGIN_NAME = process.env.DEV_LOGIN_NAME ?? "Demo User";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },

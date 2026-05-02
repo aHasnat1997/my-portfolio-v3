@@ -29,6 +29,7 @@ export default function ScrollVideo({ src }: { src: string }) {
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
+    const container = containerRef.current;
     if (!video || !canvas) return;
 
     const gl = canvas.getContext("webgl", { premultipliedAlpha: false });
@@ -40,6 +41,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       gl.compileShader(sh);
       return sh;
     };
+
     const vertShader = compile(gl.VERTEX_SHADER, VERT);
     const fragShader = compile(gl.FRAGMENT_SHADER, FRAG);
     const prog = gl.createProgram()!;
@@ -75,17 +77,33 @@ export default function ScrollVideo({ src }: { src: string }) {
     let smoothScroll = 0;
     let rafId: number;
     let unlocked = false;
+    let hasCompleted = false;
     let isSeeking = false;
     let pendingTime = -1;
     let lastScrollY = window.scrollY;
     let lastTouchY = 0;
     let lockRaf = 0;
+    let isCanvasVisible = false;
+
+    const showCanvas = () => {
+      if (isCanvasVisible) return;
+      isCanvasVisible = true;
+      canvas.classList.add("opacity-100");
+    };
+
+    const hideCanvas = () => {
+      if (!isCanvasVisible) return;
+      isCanvasVisible = false;
+      canvas.classList.remove("opacity-100");
+    };
 
     const lock = () => {
       unlocked = false;
     };
     const unlock = () => {
+      if (unlocked) return;
       unlocked = true;
+      hasCompleted = true;
       window.dispatchEvent(new CustomEvent("videoProgress", { detail: 1 }));
     };
 
@@ -113,6 +131,7 @@ export default function ScrollVideo({ src }: { src: string }) {
 
     let hasDrawnFirstFrame = false;
     const resizeCanvas = () => {
+      if (!container) return;
       if (!video.videoWidth || !video.videoHeight) return;
 
       canvas.style.width = "100%";
@@ -120,7 +139,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       canvas.style.left = "0px";
       canvas.style.top = "0px";
 
-      const rect = canvas.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
 
       const videoAspect = video.videoWidth / video.videoHeight;
@@ -167,19 +186,17 @@ export default function ScrollVideo({ src }: { src: string }) {
       hasDrawnFirstFrame = true;
     };
 
-    // after seek completes, draw — and if another seek is pending, do it now
     const onSeeked = () => {
       drawFrame();
       if (pendingTime >= 0) {
         const t = pendingTime;
         pendingTime = -1;
-        video.currentTime = t; // isSeeking stays true, new seek in progress
+        video.currentTime = t;
       } else {
-        isSeeking = false; // fully done, ready for next seek
+        isSeeking = false;
       }
     };
 
-    // safety: if seeked never fires (stalled), reset after 300ms
     let seekTimeout: ReturnType<typeof setTimeout>;
     const seekTo = (t: number) => {
       if (isSeeking) {
@@ -233,11 +250,6 @@ export default function ScrollVideo({ src }: { src: string }) {
         Math.max(virtualScroll + delta / metrics.totalDistance, 0),
         1,
       );
-
-      if (virtualScroll >= 0.99) {
-        unlock();
-        window.scrollTo({ top: metrics.heroTop + metrics.heroHeight });
-      }
     };
 
     const onScroll = () => {
@@ -246,25 +258,21 @@ export default function ScrollVideo({ src }: { src: string }) {
         lastScrollY = window.scrollY;
         return;
       }
+
+      const metrics = getHeroMetrics();
+      if (!metrics) {
+        lastScrollY = window.scrollY;
+        return;
+      }
+
       if (!unlocked) {
-        const metrics = getHeroMetrics();
-        if (!metrics) {
-          lastScrollY = window.scrollY;
-          return;
-        }
+        showCanvas();
         const delta = metrics.currentScrollY - lastScrollY;
-        if (delta > 0) {
-          applyDelta(delta, metrics);
-        }
+        applyDelta(delta, metrics);
         if (Math.abs(metrics.currentScrollY - metrics.heroTop) > 1) {
           snapToHeroTop(metrics.heroTop);
         }
         lastScrollY = metrics.currentScrollY;
-        return;
-      }
-      const metrics = getHeroMetrics();
-      if (!metrics) {
-        lastScrollY = window.scrollY;
         return;
       }
 
@@ -275,6 +283,11 @@ export default function ScrollVideo({ src }: { src: string }) {
         ),
         1,
       );
+
+      if (progress > 0) {
+        showCanvas();
+      }
+
       const isWithinHero =
         metrics.currentScrollY >= metrics.heroTop &&
         metrics.currentScrollY <= metrics.heroBottom;
@@ -307,6 +320,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       if (!metrics) return;
 
       event.preventDefault();
+      showCanvas();
       applyDelta(event.deltaY, metrics);
       snapToHeroTop(metrics.heroTop);
     };
@@ -328,7 +342,29 @@ export default function ScrollVideo({ src }: { src: string }) {
       lastTouchY = currentY;
 
       event.preventDefault();
+      showCanvas();
       applyDelta(delta, metrics);
+      snapToHeroTop(metrics.heroTop);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (unlocked) return;
+
+      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " "];
+      if (!keys.includes(event.key)) return;
+
+      const metrics = getHeroMetrics();
+      if (!metrics) return;
+
+      event.preventDefault();
+      showCanvas();
+
+      const step =
+        event.key === "ArrowDown" || event.key === " "
+          ? metrics.totalDistance * 0.08
+          : metrics.totalDistance * -0.08;
+
+      applyDelta(step, metrics);
       snapToHeroTop(metrics.heroTop);
     };
 
@@ -340,7 +376,16 @@ export default function ScrollVideo({ src }: { src: string }) {
         if (Math.abs(video.currentTime - targetTime) > 0.02) {
           seekTo(targetTime);
         }
-        if (smoothScroll >= 0.99 && !unlocked) unlock();
+        if (
+          smoothScroll >= 0.999 &&
+          video.currentTime >= video.duration - 0.02
+        ) {
+          unlock();
+        }
+      }
+
+      if (hasCompleted && smoothScroll <= 0.02) {
+        hideCanvas();
       }
 
       if (!hasDrawnFirstFrame && video.readyState >= 2) {
@@ -363,6 +408,13 @@ export default function ScrollVideo({ src }: { src: string }) {
       }
     };
 
+    const resizeObserver = new ResizeObserver(() => {
+      onResize();
+    });
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
     video.addEventListener("seeked", onSeeked);
     video.addEventListener("loadeddata", onLoadedData);
     window.addEventListener("resize", onResize);
@@ -370,6 +422,7 @@ export default function ScrollVideo({ src }: { src: string }) {
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("keydown", onKeyDown, { passive: false });
     rafId = requestAnimationFrame(tick);
 
     if (video.readyState >= 2) {
@@ -384,6 +437,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       unlocked = false;
       isSeeking = false;
       pendingTime = -1;
+      resizeObserver.disconnect();
       video.removeEventListener("seeked", onSeeked);
       video.removeEventListener("loadeddata", onLoadedData);
       window.removeEventListener("resize", onResize);
@@ -391,6 +445,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("keydown", onKeyDown);
       if (tex) gl.deleteTexture(tex);
       if (buf) gl.deleteBuffer(buf);
       if (prog) gl.deleteProgram(prog);
@@ -402,19 +457,20 @@ export default function ScrollVideo({ src }: { src: string }) {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 w-full h-full overflow-hidden"
+      className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
     >
       <video
         ref={videoRef}
         src={src}
         muted
         playsInline
-        preload="auto"
+        // preload="auto"
+        preload="metadata"
         className="hidden"
       />
       <canvas
         ref={canvasRef}
-        className="absolute z-50 inset-0 w-full h-full"
+        className="absolute z-50 inset-0 w-full h-full opacity-0 transition-opacity duration-700 pointer-events-none"
         suppressHydrationWarning
       />
     </div>

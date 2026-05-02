@@ -76,6 +76,8 @@ export default function Hero() {
           </div>
         </div>
 
+        <div>Scroll down</div>
+
         <ScrollVideo src="/laptop.mp4" />
       </div>
     </section>

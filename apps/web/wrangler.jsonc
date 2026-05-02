@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "mydevportfolio",
+  "account_id": "760fa37c9a2f654496ce9315c799ed43",
   "compatibility_date": "2026-04-05",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {

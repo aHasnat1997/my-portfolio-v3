@@ -61,7 +61,7 @@ export default function Solutions() {
           </div>
 
           {/* Right side - Benefits list */}
-          <div className="bg-gradient-to-br from-green-950/30 to-black border border-green-900/30 rounded-lg p-8 lg:p-12">
+          <div className="bg-linear-to-br from-green-950/30 to-black border border-green-900/30 rounded-lg p-8 lg:p-12">
             <h3 className="text-2xl font-bold text-white mb-8">
               What I Bring to Your Projects
             </h3>
