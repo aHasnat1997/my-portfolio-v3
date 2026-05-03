@@ -27,17 +27,19 @@ export default function Hero() {
         scanlineFrequency={0}
         warpAmount={0.6}
       />
-      <StaggeredMenu
-        isFixed={true}
-        position="right"
-        items={menuItems}
-        socialItems={socialItems}
-        displaySocials
-        displayItemNumbering={true}
-        changeMenuColorOnOpen={true}
-        colors={["#B19EEF", "#5227FF"]}
-        logoUrl="/logo-white.svg"
-      />
+      <div className="bg-amber-600">
+        <StaggeredMenu
+          isFixed={true}
+          position="right"
+          items={menuItems}
+          socialItems={socialItems}
+          displaySocials
+          displayItemNumbering={true}
+          changeMenuColorOnOpen={true}
+          colors={["#B19EEF", "#5227FF"]}
+          logoUrl="/logo-white.svg"
+        />
+      </div>
 
       <div className="absolute inset-0 w-full h-full flex items-center justify-center">
         <div className="space-y-6 sm:space-y-8 w-full sm:w-3/4 md:w-1/2 mx-auto px-4 sm:px-0">
@@ -74,9 +76,9 @@ export default function Hero() {
               Explore My Work
             </Link>
           </div>
-        </div>
 
-        <div>Scroll down</div>
+          <div>Scroll down</div>
+        </div>
 
         <ScrollVideo src="/laptop.mp4" />
       </div>

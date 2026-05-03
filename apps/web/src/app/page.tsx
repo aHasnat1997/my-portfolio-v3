@@ -11,13 +11,13 @@ export default function Home() {
     <main className="w-full overflow-x-hidden">
       <Hero />
 
-      <AfterVideo>
-        <Solutions />
-        <Technologies />
-        <Projects />
-        <ProfessionalJourney />
-        <CTA />
-      </AfterVideo>
+      <Solutions />
+      <Technologies />
+      <Projects />
+      <ProfessionalJourney />
+      <CTA />
+      {/* <AfterVideo>
+      </AfterVideo> */}
     </main>
   );
 }
