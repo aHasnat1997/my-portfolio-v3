@@ -1,0 +1,75 @@
+<section id="experience" class="border-b border-border px-4 py-16 lg:px-20">
+  <div class="label mb-4">— professional deployment</div>
+  <h2
+    class="display text-foreground"
+    style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
+  >
+    Experience
+  </h2>
+
+  <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
+    <div>
+      <div class="label mb-3">— current role</div>
+      <h3 class="display text-2xl">Frontend Developer</h3>
+      <div class="mt-1 text-xs tracking-widest text-terminal uppercase">
+        // full-stack responsibilities
+      </div>
+      <div class="label-dim mt-6 mb-2">— primary / day-to-day duties</div>
+      <ul class="space-y-2 text-sm">
+        {
+          [
+            "Build scalable interface applications using React and Next JS",
+            "Integrate REST APIs and manage complex frontend state",
+            "Develop backend modules using Node JS and Nest JS",
+            "Design database structures using PostgreSQL and MongoDB",
+            "Participate in deployment and infrastructure decisions",
+          ].map((t) => (
+            <li class="flex gap-3 text-muted-foreground">
+              <span class="text-terminal">▸</span>
+              <span>{t}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="label-dim mt-8 mb-3">— current projects</div>
+      <div class="flex flex-wrap gap-2 text-[10px] tracking-widest uppercase">
+        {
+          [
+            "Admin & billing stack",
+            "Vendor architecture",
+            "Order Tools",
+            "High-performance APIs",
+          ].map((t) => (
+            <span class="border border-border px-2 py-1 text-muted-foreground">
+              {t}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div>
+      <div class="label mb-3">— skill summary</div>
+      <p class="text-sm leading-relaxed text-muted-foreground">
+        Working on production-level applications involving frontend systems,
+        backend APIs, dashboards, database design, and infrastructure
+        deployment.
+      </p>
+      <div class="label mt-10 mb-3">— development mindset</div>
+      <p class="display text-2xl leading-tight">
+        Clean architecture.
+        <br />
+        Scalable systems.
+        <br />
+        <span class="text-terminal-dim">Better UX.</span>
+      </p>
+      <p
+        class="mt-6 text-xs leading-relaxed tracking-wider text-muted-foreground uppercase"
+      >
+        I believe good software is not only about writing code — it's about
+        building systems that are maintainable, scalable, performant, and
+        user-friendly.
+      </p>
+    </div>
+  </div>
+</section>

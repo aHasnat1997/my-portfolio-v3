@@ -1,0 +1,60 @@
+<section
+  class="grid grid-cols-1 gap-8 border-b border-border px-4 py-16 lg:grid-cols-2 lg:px-20"
+>
+  <div>
+    <div class="label mb-6">— operative briefing</div>
+    <h2
+      class="display text-foreground"
+      style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+    >
+      Build modern products.
+      <br />
+      <span class="text-terminal-dim">Solve real</span>
+      <span class="text-terminal-dim">problems.</span>
+    </h2>
+    <p
+      class="mt-8 max-w-md text-xs leading-relaxed tracking-wider text-muted-foreground uppercase"
+    >
+      Clean architecture. Scalable systems. Better user experience. Good
+      software is not only about getting code — it's about building systems that
+      are maintainable, scalable, performant, and user-friendly.
+    </p>
+  </div>
+
+  <div>
+    <div class="label mb-4">
+      Developer focused on real-world product engineering
+    </div>
+    <p class="text-sm leading-relaxed text-muted-foreground">
+      I started my journey as a frontend developer, but quickly counted into
+      backend development, database design, deployment systems, and holistic
+      application architecture while serving client projects.
+    </p>
+    <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+      Rather than just building interfaces, I enjoy understanding the complete
+      systems map — from frontend user experience to backend logic, APIs,
+      databases, and infrastructure. Currently focused on growing into a strong
+      Full Stack Engineer capable of building production-level applications
+      end-to-end.
+    </p>
+
+    <div class="label mt-10 mb-4">— what i bring / why it works</div>
+    <div class="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2">
+      {
+        [
+          "End-to-end product engineering",
+          "Pixel-perfect UI / UX execution",
+          "Full-stack development experience",
+          "Resilient architecture thinking",
+          "Problem-solving mindset",
+          "Fast adaptability to new tech",
+        ].map((t) => (
+          <div class="flex items-start gap-2 border border-border bg-card/40 px-3 py-2">
+            <span class="text-terminal">✓</span>
+            <span class="tracking-wider uppercase">{t}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

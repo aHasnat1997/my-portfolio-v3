@@ -1,0 +1,81 @@
+---
+import "@/styles/global.css"
+import { ClientRouter } from "astro:transitions"
+
+interface Props {
+  title?: string
+  description?: string
+  canonical?: string
+}
+
+const {
+  title = "Hasnat — Full Stack Developer | JavaScript, TypeScript, React, Next.js, Node.js, NestJS",
+  description = "Full Stack Developer specializing in JavaScript, TypeScript, React, Next.js, Node.js, NestJS, PostgreSQL, and cloud infrastructure. Building scalable, high-performance web applications with real-world client experience.",
+  canonical = Astro.url.href,
+} = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/logo-white.png" />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Hasnat" />
+    <meta
+      name="keywords"
+      content="Full Stack Developer, React Developer, Next.js, Node.js, NestJS, TypeScript, PostgreSQL, MongoDB, Web Developer for hire, Bangladesh developer"
+    />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph (LinkedIn, Facebook, WhatsApp previews) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- JSON-LD structured data (Google rich results) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Hasnat",
+        "url": "https://hasnat.dev",
+        "jobTitle": "Full Stack Developer",
+        "description": "Full Stack Developer specializing in JavaScript, TypeScript, React, Next.js, Node.js, NestJS, and cloud infrastructure.",
+        "email": "a.hasnat.dev1@gmail.com",
+        "sameAs": [
+          "https://github.com/aHasnat1997",
+          "https://linkedin.com/in/a-hasnat"
+        ],
+        "knowsAbout": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Next.js",
+          "Node.js",
+          "NestJS",
+          "TypeScript",
+          "PostgreSQL",
+          "MongoDB",
+          "Docker"
+        ]
+      }
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

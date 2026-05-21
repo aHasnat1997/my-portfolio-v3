@@ -1,0 +1,50 @@
+---
+import MainLayout from "@/layouts/main.astro"
+import { Dot } from "lucide-react"
+import Hero from "@/components/hero/index.astro"
+import About from "@/components/about/index.astro"
+import Experience from "@/components/experience/index.astro"
+import Projects from "@/components/projects/index.astro"
+import Contact from "@/components/contact/index.astro"
+---
+
+<MainLayout>
+  <main class="min-h-screen">
+    {/* Top status bar */}
+    <div class="border-b border-border">
+      <div
+        class="mx-auto flex items-center justify-between px-4 py-2 text-[10px] tracking-[0.2em] text-muted-foreground uppercase lg:px-20"
+      >
+        <div class="flex items-center gap-3">
+          <Dot />
+          <span>system://hasnat.dev</span>
+          <span class="hidden sm:inline"
+            >// portfolio.build // full_stack_developer</span
+          >
+        </div>
+        <div class="flex items-center gap-3">
+          <span>online</span>
+          <span class="rounded-sm bg-terminal/10 px-1.5 py-0.5 text-terminal"
+            >GMT+6</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto">
+      <Hero />
+      <About />
+      <Experience />
+      <Projects />
+      <Contact />
+    </div>
+
+    {/* Footer */}
+    <footer
+      class="flex flex-col gap-2 px-4 py-6 text-[10px] tracking-widest text-muted-foreground uppercase sm:flex-row sm:justify-between lg:px-20"
+    >
+      <span>© 2026 hasnat.dev // all systems operational</span>
+      <span>built with React + Astro // designed in the dark</span>
+    </footer>
+  </main>
+</MainLayout>

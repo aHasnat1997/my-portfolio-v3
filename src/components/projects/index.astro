@@ -1,0 +1,147 @@
+<section id="projects" class="border-b border-border px-4 py-16 lg:px-20">
+  <div class="label mb-4">— operative deployments</div>
+  <h2
+    class="display text-foreground"
+    style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
+  >
+    Featured Projects
+  </h2>
+
+  <div class="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {
+      [
+        {
+          tag: "// project_01",
+          title: "Multi-Vendor Marketplace Platform",
+          blurb:
+            "Full vendor onboarding workflow with payouts, inventory, and orders.",
+          desc: "A scalable multi-vendor marketplace platform designed to connect buyers and sellers with transparency-focused features, role-based permissions, and modern infrastructure architecture.",
+          stack: ["React", "Next.js", "Node.js", "Stripe", "Redis"],
+          features: [
+            "Multi-tenant architecture (vendor, buyer, admin)",
+            "Stripe payment processing",
+            "Real-time order tracking with WebSockets",
+          ],
+        },
+        {
+          tag: "// project_02",
+          title: "File Upload & Media System",
+          blurb: "Scalable media upload system with CDN optimization.",
+          desc: "A custom file and image upload system designed for handling multiple uploads, previews, optimized delivery, and media management workflows.",
+          stack: ["Node.js", "TypeScript", "Cloudflare R2", "AWS"],
+          features: [
+            "Chunked upload pipeline with resume",
+            "Image transforms, previews & metadata",
+            "Bandwidth-optimized signed asset URLs",
+          ],
+        },
+        {
+          tag: "// project_03",
+          title: "Role-Based Dashboard",
+          blurb: "Enterprise dashboard with granular access control.",
+          desc: "A dashboard system built for managing multiple user roles with secure authentication, dynamic permissions, and responsive analytics interfaces.",
+          stack: ["Next.js", "Nest.js", "Postgres", "tRPC"],
+          features: [
+            "Role-based access management",
+            "Dynamic permission policies",
+            "Real-time analytics & audit logs",
+          ],
+        },
+      ].map((p) => (
+        <article class="panel flex flex-col p-5">
+          <div class="label">{p.tag}</div>
+          <h3 class="display mt-4 text-xl leading-tight">{p.title}</h3>
+          <p class="mt-2 text-[11px] tracking-widest text-terminal-dim uppercase">
+            {p.blurb}
+          </p>
+          <p class="mt-4 text-xs leading-relaxed text-muted-foreground">
+            {p.desc}
+          </p>
+
+          <div class="label-dim mt-5 mb-2">// tech</div>
+          <div class="flex flex-wrap gap-1.5">
+            {p.stack.map((s) => (
+              <span class="border border-border px-1.5 py-0.5 text-[10px] text-foreground">
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <div class="label-dim mt-5 mb-2">// key_features</div>
+          <ul class="space-y-1.5 text-xs text-muted-foreground">
+            {p.features.map((f) => (
+              <li class="flex gap-2">
+                <span class="text-terminal">›</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <button class="mt-6 w-full border border-border py-2.5 text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal">
+            [ view_project ]
+          </button>
+        </article>
+      ))
+    }
+  </div>
+
+  {/* Technical log */}
+  <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
+    <div>
+      <h3 class="display text-3xl">
+        Technical
+        <br />
+        Log
+      </h3>
+      <p
+        class="mt-3 text-[11px] tracking-widest text-muted-foreground uppercase"
+      >
+        Technical specs of all operative capabilities and system fundamentals.
+      </p>
+    </div>
+    <div class="panel divide-y divide-border">
+      <div
+        class="grid grid-cols-[160px_1fr_80px] gap-4 px-4 py-2 text-[10px] tracking-widest text-terminal-dim uppercase"
+      >
+        <span>// system_type</span>
+        <span>// primary_stack</span>
+        <span class="text-right">// status</span>
+      </div>
+      {
+        [
+          [
+            "[frontend_dev]",
+            "React.js // Next.js // TypeScript // Tailwind CSS // Material UI // Motion Framework // Zustand // Redux",
+            "ACTIVE",
+          ],
+          [
+            "[backend_dev]",
+            "Node.js // Nest.js // Express.js // REST API // Auth & Authorization // Role-based access control",
+            "ACTIVE",
+          ],
+          [
+            "[databases_dev]",
+            "PostgreSQL // MongoDB // Prisma ORM // SQL",
+            "ACTIVE",
+          ],
+          [
+            "[devops_basic]",
+            "Docker // Git // CI/CD // File Storage Systems // S3 & Cloudinary // Deployment Pipelines",
+            "STABLE",
+          ],
+        ].map(([type, stack, status]) => (
+          <div class="grid grid-cols-[160px_1fr_80px] gap-4 px-4 py-3 text-xs">
+            <span class="text-terminal">{type}</span>
+            <span class="text-muted-foreground">{stack}</span>
+            <span class="text-right text-terminal">{status}</span>
+          </div>
+        ))
+      }
+      <button
+        class="w-full px-4 py-3 text-[11px] tracking-widest text-muted-foreground uppercase hover:text-terminal"
+      >
+        + load full archive
+      </button>
+    </div>
+  </div>
+</section>

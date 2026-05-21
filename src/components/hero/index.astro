@@ -1,0 +1,97 @@
+---
+import { Dot } from "lucide-react"
+---
+
+{/* Hero */}
+<section class="border-b border-border px-4 pt-12 pb-16 lg:px-20">
+  <div class="label mb-6">— operator id: hasnat_md</div>
+  <h1
+    class="display text-foreground"
+    style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
+  >
+    Hasnat
+  </h1>
+  <div
+    class="display mt-2 text-terminal-dim"
+    style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
+  >
+    Full Stack Developer<span class="text-terminal">_</span>
+  </div>
+</section>
+
+{/* Intro grid */}
+<section
+  class="grid grid-cols-1 gap-10 border-b border-border px-4 py-10 lg:grid-cols-3 lg:px-20"
+>
+  <div>
+    <div class="label mb-3">— current status</div>
+    <p class="text-sm leading-relaxed text-muted-foreground">
+      Building scalable, high-performance web applications that solve real-world
+      client experience across frontend, backend, databases, and deployment
+      infrastructure.
+    </p>
+    <div
+      class="mt-6 flex flex-wrap gap-2 text-[11px] tracking-widest uppercase"
+    >
+      <a
+        href="#projects"
+        class="border border-terminal bg-terminal/10 px-3 py-2 text-terminal hover:bg-terminal/20"
+      >
+        [ view_work ]
+      </a>
+      <a
+        href="#experience"
+        class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
+      >
+        [ download_resume ]
+      </a>
+      <a
+        href="#contact"
+        class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
+      >
+        [ contact ]
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="label mb-3">— core expertise</div>
+    <ul class="space-y-2 text-sm">
+      {
+        [
+          ["01", "React JS / Next JS"],
+          ["02", "Node JS / Nest JS"],
+          ["03", "PostgreSQL / MongoDB"],
+          ["04", "Python / Go"],
+          ["05", "Cloud Infrastructure"],
+        ].map(([n, t]) => (
+          <li class="flex items-center gap-3">
+            <Dot />
+            <span class="text-terminal-dim">[{n}]</span>
+            <span class="tracking-wider uppercase">{t}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div>
+    <div class="label mb-3">— focus areas</div>
+    <ul class="space-y-2 text-sm tracking-wider uppercase">
+      {
+        [
+          "Scalable backend systems",
+          "Resilient APIs & SDKs",
+          "Performance & DX",
+          "Architecture & design",
+          "AI & LLM workflows",
+        ].map((t) => (
+          <li class="flex items-center gap-3 text-muted-foreground">
+            <span class="text-terminal">›</span>
+            {t}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

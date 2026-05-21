@@ -1,0 +1,210 @@
+---
+export interface Props {
+  profile?: {
+    fileName: string
+    fullName: string
+    className: string
+    experience: string
+    specialization: string[]
+    focus: string
+    role: string
+    expertise: string[]
+  }
+}
+
+const defaultProfile = {
+  fileName: "about.config",
+  fullName: "A Hasnat",
+  className: "FullStackDeveloper",
+  experience: "1+ years",
+  specialization: [
+    "Node.js",
+    "React",
+    "Next.js",
+    "Astro",
+    "Nest.js",
+    "Express.js",
+    "TypeScript",
+    "Docker",
+  ],
+  focus: "Scalable Systems",
+  role: "Full Stack Developer",
+  expertise: [
+    "Complex dashboard systems",
+    "REST API Development",
+    "Database Design (PostgreSQL/MongoDB)",
+    "System Design & Optimization",
+  ],
+}
+
+const { profile = defaultProfile } = Astro.props
+
+// Pre-build array lines as HTML strings in the frontmatter
+const wrapStr = (s: string) => `<span class="str">'${s}'</span>`
+
+const specializationLines = profile.specialization
+  .map((item, i) => {
+    const comma =
+      i < profile.specialization.length - 1 ? `<span class="pun">,</span>` : ""
+    return `      ${wrapStr(item)}${comma}`
+  })
+  .join("\n")
+
+const expertiseLines = profile.expertise
+  .map((item, i) => {
+    const comma =
+      i < profile.expertise.length - 1 ? `<span class="pun">,</span>` : ""
+    return `      ${wrapStr(item)}${comma}`
+  })
+  .join("\n")
+---
+
+<div class="vscode-card">
+  <!-- Title Bar -->
+  <div class="title-bar">
+    <div class="window-controls">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+    </div>
+    <span class="file-name">{profile.fileName}</span>
+  </div>
+
+  <!-- Code Body -->
+  <div class="code-body">
+    <pre><code><span class="kw">class</span> <span class="cls">{profile.className}</span> <span class="pun">{"{"}</span>
+  <span class="fn">constructor</span><span class="pun">() {"{"}</span>
+    <span class="kw">this</span><span class="pun">.</span><span class="prop">fullName</span> <span class="pun">=</span> <span class="str">'{profile.fullName}'</span><span class="pun">;</span>
+    <span class="kw">this</span><span class="pun">.</span><span class="prop">experience</span> <span class="pun">=</span> <span class="str">'{profile.experience}'</span><span class="pun">;</span>
+    <span class="kw">this</span><span class="pun">.</span><span class="prop">focus</span> <span class="pun">=</span> <span class="str">'{profile.focus}'</span><span class="pun">;</span>
+    <span class="kw">this</span><span class="pun">.</span><span class="prop">role</span> <span class="pun">=</span> <span class="str">'{profile.role}'</span><span class="pun">;</span>
+    <span class="kw">this</span><span class="pun">.</span><span class="prop">specialization</span> <span class="pun">= [</span>
+<span set:html={specializationLines} />
+    <span class="pun">];</span>
+    <span class="kw">this</span><span class="pun">.</span><span class="prop">expertise</span> <span class="pun">= [</span>
+<span set:html={expertiseLines} />
+    <span class="pun">];</span>
+  <span class="pun">{"}"}</span>
+
+  <span class="fn">buildSystem</span><span class="pun">() {"{"}</span>
+    <span class="kw">return</span> <span class="kw">this</span><span class="pun">.</span><span class="prop">scalability</span> <span class="pun">+</span> <span class="kw">this</span><span class="pun">.</span><span class="prop">performance</span>
+      <span class="pun">+</span> <span class="kw">this</span><span class="pun">.</span><span class="prop">maintainability</span><span class="pun">;</span>
+  <span class="pun">{"}"}</span>
+<span class="pun">{"}"}</span></code></pre>
+  </div>
+</div>
+
+<style>
+  :root {
+    --vsc-bg: #1e1e1e;
+    --vsc-titlebar: #323233;
+    --vsc-border: #474747;
+    --vsc-text: #d4d4d4;
+    --vsc-kw: #569cd6;
+    --vsc-cls: #4ec9b0;
+    --vsc-fn: #dcdcaa;
+    --vsc-str: #ce9178;
+    --vsc-prop: #9cdcfe;
+    --vsc-pun: #d4d4d4;
+    --vsc-dot-red: #ff5f57;
+    --vsc-dot-yellow: #febc2e;
+    --vsc-dot-green: #28c840;
+    --vsc-filename: #cccccc;
+    --vsc-font:
+      "Cascadia Code", "Fira Code", "Consolas", "Courier New", monospace;
+    --vsc-radius: 8px;
+  }
+
+  .vscode-card {
+    display: block;
+    width: 100%;
+    background-color: var(--vsc-bg);
+    border: 1px solid var(--vsc-border);
+    border-radius: var(--vsc-radius);
+    overflow: hidden;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      0 2px 8px rgba(0, 0, 0, 0.3);
+    font-family: var(--vsc-font);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .title-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--vsc-titlebar);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--vsc-border);
+    user-select: none;
+  }
+
+  .window-controls {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot-red {
+    background-color: var(--vsc-dot-red);
+  }
+  .dot-yellow {
+    background-color: var(--vsc-dot-yellow);
+  }
+  .dot-green {
+    background-color: var(--vsc-dot-green);
+  }
+
+  .file-name {
+    color: var(--vsc-filename);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+  }
+
+  .code-body {
+    padding: 20px 24px 24px;
+    overflow-x: auto;
+  }
+
+  pre {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    white-space: pre;
+  }
+
+  code {
+    color: var(--vsc-text);
+    font-family: var(--vsc-font);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .kw {
+    color: var(--vsc-kw);
+  }
+  .cls {
+    color: var(--vsc-cls);
+  }
+  .fn {
+    color: var(--vsc-fn);
+  }
+  .str {
+    color: var(--vsc-str);
+  }
+  .prop {
+    color: var(--vsc-prop);
+  }
+  .pun {
+    color: var(--vsc-pun);
+  }
+</style>
