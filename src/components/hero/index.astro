@@ -1,21 +1,30 @@
 ---
 import { Dot } from "lucide-react"
+import IconGlobe from "./IconGlobe"
 ---
 
 {/* Hero */}
 <section class="border-b border-border px-4 pt-12 pb-16 lg:px-20">
-  <div class="label mb-6">— operator id: hasnat_md</div>
-  <h1
-    class="display text-foreground"
-    style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
-  >
-    Hasnat
-  </h1>
-  <div
-    class="display mt-2 text-terminal-dim"
-    style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
-  >
-    Full Stack Developer<span class="text-terminal">_</span>
+  <div class="flex w-full justify-between gap-6">
+    <div>
+      <div class="label mb-6">— operator id: hasnat_md</div>
+      <h1
+        class="display text-foreground"
+        style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
+      >
+        Hasnat
+      </h1>
+      <div
+        class="display mt-2 text-terminal-dim"
+        style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
+      >
+        Full Stack Developer<span class="text-terminal">_</span>
+      </div>
+    </div>
+
+    <div class="w-[60%] items-center justify-center lg:flex">
+      <IconGlobe client:load />
+    </div>
   </div>
 </section>
 
