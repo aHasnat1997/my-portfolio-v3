@@ -1,11 +1,14 @@
 ---
 import { Dot } from "lucide-react"
 import IconGlobe from "./IconGlobe"
+import TextType from "./TextType.astro"
 ---
 
 {/* Hero */}
-<section class="border-b border-border px-4 pt-12 pb-16 lg:px-20">
-  <div class="flex w-full justify-between gap-6">
+<section class="px-4 pt-12 lg:px-20">
+  <div
+    class="flex w-full flex-col items-start justify-between gap-6 md:flex-row md:items-center"
+  >
     <div>
       <div class="label mb-6">— operator id: hasnat_md</div>
       <h1
@@ -14,24 +17,18 @@ import IconGlobe from "./IconGlobe"
       >
         Hasnat
       </h1>
-      <div
-        class="display mt-2 text-terminal-dim"
-        style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
-      >
-        Full Stack Developer<span class="text-terminal">_</span>
-      </div>
+
+      <TextType />
     </div>
 
-    <div class="w-[60%] items-center justify-center lg:flex">
+    <div class="h-fit w-full md:w-[50%]">
       <IconGlobe client:load />
     </div>
   </div>
 </section>
 
 {/* Intro grid */}
-<section
-  class="grid grid-cols-1 gap-10 border-b border-border px-4 py-10 lg:grid-cols-3 lg:px-20"
->
+<section class="grid grid-cols-1 gap-10 px-4 lg:grid-cols-3 lg:px-20">
   <div>
     <div class="label mb-3">— current status</div>
     <p class="text-sm leading-relaxed text-muted-foreground">
@@ -48,12 +45,12 @@ import IconGlobe from "./IconGlobe"
       >
         [ view_work ]
       </a>
-      <a
+      <!-- <a
         href="#experience"
         class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
       >
         [ download_resume ]
-      </a>
+      </a> -->
       <a
         href="#contact"
         class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
@@ -64,7 +61,7 @@ import IconGlobe from "./IconGlobe"
   </div>
 
   <div>
-    <div class="label mb-3">— core expertise</div>
+    <!-- <div class="label mb-3">— core expertise</div>
     <ul class="space-y-2 text-sm">
       {
         [
@@ -81,7 +78,7 @@ import IconGlobe from "./IconGlobe"
           </li>
         ))
       }
-    </ul>
+    </ul> -->
   </div>
 
   <div>
@@ -89,7 +86,7 @@ import IconGlobe from "./IconGlobe"
     <ul class="space-y-2 text-sm tracking-wider uppercase">
       {
         [
-          "Scalable backend systems",
+          "Scalable systems",
           "Resilient APIs & SDKs",
           "Performance & DX",
           "Architecture & design",

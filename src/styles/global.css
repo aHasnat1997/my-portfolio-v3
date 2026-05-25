@@ -93,6 +93,26 @@
       );
     background-size: 48px 48px;
   }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: oklch(21.934% 0.01217 145.241);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--terminal);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--terminal-dim);
+  }
 }
 
 @layer utilities {
@@ -133,7 +153,7 @@
 
   .panel {
     border: 1px solid var(--border);
-    background: color-mix(in oklab, var(--card) 60%, transparent);
+    background: color-mix(in oklab, var(--card) 100%, transparent);
   }
 
   .cursor-blink::after {

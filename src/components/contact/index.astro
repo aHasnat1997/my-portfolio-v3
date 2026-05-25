@@ -4,7 +4,7 @@ import { Dot } from "lucide-react"
 
 <section
   id="contact"
-  class="grid grid-cols-1 gap-12 border-b border-border px-4 py-16 lg:grid-cols-2 lg:px-20"
+  class="grid grid-cols-1 gap-32 px-4 py-16 lg:grid-cols-2 lg:px-20"
 >
   <div>
     <div class="label mb-4">— operative // contact_log</div>
@@ -23,22 +23,20 @@ import { Dot } from "lucide-react"
           ["github_", "github.com/aHasnat1997"],
           ["linkedin_", "linkedin.com/in/a-hasnat"],
         ].map(([k, v]) => (
-          <div class="grid grid-cols-[100px_1fr] items-center gap-4 border border-border bg-card/40 px-3 py-2">
-            <dt class="text-[10px] tracking-widest text-terminal uppercase">
-              {k}
-            </dt>
-            <dd class="text-xs tracking-wider text-foreground uppercase">
-              {v}
-            </dd>
-          </div>
+          <a
+            href={`https://${v}`}
+            class="grid grid-cols-[100px_1fr] items-center gap-4 border border-border bg-card/40 px-3 py-2"
+          >
+            <dt class="text-[10px] tracking-widest text-terminal">{k}</dt>
+            <dd class="text-xs tracking-wider text-foreground">{v}</dd>
+          </a>
         ))
       }
     </dl>
     <p
       class="cursor-blink mt-6 text-[10px] tracking-widest text-muted-foreground uppercase"
     >
-      status_ Last log out: 13:42:08 UTC // system synchronized // ready &gt;
-      project rebrief incoming
+      system synchronized // ready &gt; project rebrief incoming
     </p>
   </div>
 
@@ -60,7 +58,7 @@ import { Dot } from "lucide-react"
     </ul>
 
     <a
-      href="mailto:z.hasnat.dev@gmail.com"
+      href="mailto:a.hasnat.dev1@gmail.com"
       class="mt-6 block border border-terminal bg-terminal/10 py-4 text-center text-xs tracking-[0.3em] text-terminal uppercase transition-colors hover:bg-terminal/20"
     >
       [ initiate_contact_sequence ]

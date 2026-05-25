@@ -1,0 +1,220 @@
+---
+import { ProjectsData } from "@/constants/projects"
+import MainLayout from "@/layouts/main.astro"
+import { Dot } from "lucide-react"
+import { ImageCarousel } from "../projects/components/image-carousel"
+
+export function getStaticPaths() {
+  return ProjectsData.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }))
+}
+
+const { project } = Astro.props
+const details = project.details
+---
+
+<MainLayout title={`${project.title} | Hasnat`}>
+  <main class="min-h-screen">
+    {/* Top status bar */}
+    <div class="border-b border-border">
+      <div
+        class="mx-auto flex items-center justify-between px-4 py-2 text-[10px] tracking-[0.2em] text-muted-foreground uppercase lg:px-20"
+      >
+        <div class="flex items-center gap-3">
+          <Dot />
+          <span>system://hasnat.dev/projects/{project.id}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-20">
+      <a
+        href="/"
+        class="mb-8 block w-fit border border-border px-4 py-2.5 text-center text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal"
+      >
+        <span>← back to home</span>
+      </a>
+      {/* Hero */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <div class="label mb-4">project_overview</div>
+        <h1 class="display mb-4 text-4xl md:text-5xl">{project.title}</h1>
+        <p class="mb-6 text-muted-foreground">{details.overview}</p>
+        <div class="mb-6 flex flex-wrap gap-2">
+          <span class="label">Role: {details.role}</span>
+          <span class="label">Scope: {details.scope}</span>
+          <span class="label">Focus: {details.focus}</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {
+            project.stack.map((tech) => (
+              <span class="border border-border px-2 py-1 text-[10px] text-foreground">
+                {tech}
+              </span>
+            ))
+          }
+        </div>
+      </section>
+
+      {/* Screenshots */}
+      {
+        details.images && details.images.length > 0 && (
+          <section class="panel mb-8 p-4 md:p-8">
+            <h2 class="display mb-6 text-2xl">// screenshots</h2>
+            <ImageCarousel images={details.images} client:load />
+          </section>
+        )
+      }
+
+      {/* Overview */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-6 text-2xl">// overview</h2>
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="panel p-4">
+            <h3 class="label mb-2">vision</h3>
+            <p class="text-xs text-muted-foreground">{details.vision}</p>
+          </div>
+          <div class="panel p-4">
+            <h3 class="label mb-2">audience</h3>
+            <p class="text-xs text-muted-foreground">{details.audience}</p>
+          </div>
+          <div class="panel p-4">
+            <h3 class="label mb-2">outcome</h3>
+            <p class="text-xs text-muted-foreground">{details.outcome}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Problem */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-4 text-2xl">// problem</h2>
+        <p class="text-xs leading-relaxed text-muted-foreground">
+          {details.problem}
+        </p>
+      </section>
+
+      {/* Solution */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-4 text-2xl">// solution</h2>
+        <p class="text-xs leading-relaxed text-muted-foreground">
+          {details.solution}
+        </p>
+      </section>
+
+      {/* Role & Responsibilities */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-4 text-2xl">// my_role</h2>
+        <p class="label mb-4">{details.role}</p>
+        <ul class="space-y-2">
+          {
+            details.responsibilities.map((item) => (
+              <li class="flex gap-2 text-xs text-muted-foreground">
+                <span class="text-terminal">›</span>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {/* Tech Stack */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-6 text-2xl">// tech_stack</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          {
+            Object.entries(details.techStack).map(([key, value]) => (
+              <div class="panel p-4">
+                <h3 class="label mb-2">{key}</h3>
+                <p class="text-xs text-muted-foreground">{value}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {/* Key Features */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-4 text-2xl">// key_features</h2>
+        <ul class="space-y-2">
+          {
+            project.features.map((feature) => (
+              <li class="flex gap-2 text-xs text-muted-foreground">
+                <span class="text-terminal">›</span>
+                {feature}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {/* Contributions */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-4 text-2xl">// contributions</h2>
+        <ul class="space-y-2">
+          {
+            details.contributions.map((item) => (
+              <li class="flex gap-2 text-xs text-muted-foreground">
+                <span class="text-terminal">›</span>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {/* Challenges */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-6 text-2xl">// challenges_&_solutions</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          {
+            details.challenges.map((challenge) => (
+              <div class="panel p-4">
+                <h3 class="mb-2 text-sm text-terminal">{challenge.title}</h3>
+                <p class="mb-2 text-[10px] text-muted-foreground">
+                  <span class="text-foreground">Problem:</span>{" "}
+                  {challenge.problem}
+                </p>
+                <p class="text-[10px] text-muted-foreground">
+                  <span class="text-foreground">Solution:</span>{" "}
+                  {challenge.solution}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {/* Impact */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-6 text-2xl">// impact</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          {
+            details.impact.map((item) => (
+              <div class="panel p-4">
+                <h3 class="mb-2 text-sm text-terminal">{item.title}</h3>
+                <p class="text-xs text-muted-foreground">{item.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {/* Learning */}
+      <section class="panel mb-8 p-4 md:p-8">
+        <h2 class="display mb-4 text-2xl">// what_i_learned</h2>
+        <p class="text-xs leading-relaxed text-muted-foreground">
+          {details.learning}
+        </p>
+      </section>
+    </div>
+
+    {/* Footer */}
+    <footer
+      class="flex flex-col gap-2 border-t border-border px-4 py-6 text-[10px] tracking-widest text-muted-foreground uppercase sm:flex-row sm:justify-between lg:px-20"
+    >
+      <span>© 2026 hasnat.dev // all systems operational</span>
+      <span>built with React + Astro // designed in the dark</span>
+    </footer>
+  </main>
+</MainLayout>

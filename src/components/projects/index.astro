@@ -1,4 +1,8 @@
-<section id="projects" class="border-b border-border px-4 py-16 lg:px-20">
+---
+import { ProjectsData } from "@/constants/projects"
+---
+
+<section id="projects" class="px-4 py-16 lg:px-20">
   <div class="label mb-4">— operative deployments</div>
   <h2
     class="display text-foreground"
@@ -7,47 +11,9 @@
     Featured Projects
   </h2>
 
-  <div class="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+  <div class="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2">
     {
-      [
-        {
-          tag: "// project_01",
-          title: "Multi-Vendor Marketplace Platform",
-          blurb:
-            "Full vendor onboarding workflow with payouts, inventory, and orders.",
-          desc: "A scalable multi-vendor marketplace platform designed to connect buyers and sellers with transparency-focused features, role-based permissions, and modern infrastructure architecture.",
-          stack: ["React", "Next.js", "Node.js", "Stripe", "Redis"],
-          features: [
-            "Multi-tenant architecture (vendor, buyer, admin)",
-            "Stripe payment processing",
-            "Real-time order tracking with WebSockets",
-          ],
-        },
-        {
-          tag: "// project_02",
-          title: "File Upload & Media System",
-          blurb: "Scalable media upload system with CDN optimization.",
-          desc: "A custom file and image upload system designed for handling multiple uploads, previews, optimized delivery, and media management workflows.",
-          stack: ["Node.js", "TypeScript", "Cloudflare R2", "AWS"],
-          features: [
-            "Chunked upload pipeline with resume",
-            "Image transforms, previews & metadata",
-            "Bandwidth-optimized signed asset URLs",
-          ],
-        },
-        {
-          tag: "// project_03",
-          title: "Role-Based Dashboard",
-          blurb: "Enterprise dashboard with granular access control.",
-          desc: "A dashboard system built for managing multiple user roles with secure authentication, dynamic permissions, and responsive analytics interfaces.",
-          stack: ["Next.js", "Nest.js", "Postgres", "tRPC"],
-          features: [
-            "Role-based access management",
-            "Dynamic permission policies",
-            "Real-time analytics & audit logs",
-          ],
-        },
-      ].map((p) => (
+      ProjectsData.map((p) => (
         <article class="panel flex flex-col p-5">
           <div class="label">{p.tag}</div>
           <h3 class="display mt-4 text-xl leading-tight">{p.title}</h3>
@@ -68,7 +34,7 @@
           </div>
 
           <div class="label-dim mt-5 mb-2">// key_features</div>
-          <ul class="space-y-1.5 text-xs text-muted-foreground">
+          <ul class="mb-8 space-y-1.5 text-xs text-muted-foreground">
             {p.features.map((f) => (
               <li class="flex gap-2">
                 <span class="text-terminal">›</span>
@@ -77,9 +43,12 @@
             ))}
           </ul>
 
-          <button class="mt-6 w-full border border-border py-2.5 text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal">
+          <a
+            href={`/projects/${p.id}`}
+            class="mt-auto block w-full border border-border py-2.5 text-center text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal"
+          >
             [ view_project ]
-          </button>
+          </a>
         </article>
       ))
     }
@@ -105,13 +74,13 @@
       >
         <span>// system_type</span>
         <span>// primary_stack</span>
-        <span class="text-right">// status</span>
+        <!-- <span class="text-right">// status</span> -->
       </div>
       {
         [
           [
             "[frontend_dev]",
-            "React.js // Next.js // TypeScript // Tailwind CSS // Material UI // Motion Framework // Zustand // Redux",
+            "React.js // Next.js // Astro // JavaScript // TypeScript // Tailwind CSS // Zustand // Redux",
             "ACTIVE",
           ],
           [
@@ -121,19 +90,19 @@
           ],
           [
             "[databases_dev]",
-            "PostgreSQL // MongoDB // Prisma ORM // SQL",
+            "PostgreSQL // MongoDB // Prisma ORM // Mongoose // SQL & NoSQL Database Design",
             "ACTIVE",
           ],
           [
             "[devops_basic]",
-            "Docker // Git // CI/CD // File Storage Systems // S3 & Cloudinary // Deployment Pipelines",
+            "Docker // Git // VPS // File Storage Systems // S3 & Cloudinary // Deployment Pipelines",
             "STABLE",
           ],
         ].map(([type, stack, status]) => (
           <div class="grid grid-cols-[160px_1fr_80px] gap-4 px-4 py-3 text-xs">
             <span class="text-terminal">{type}</span>
             <span class="text-muted-foreground">{stack}</span>
-            <span class="text-right text-terminal">{status}</span>
+            {/* <span class="text-right text-terminal">{status}</span> */}
           </div>
         ))
       }

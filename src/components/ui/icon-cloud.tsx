@@ -20,8 +20,10 @@ function easeOutCubic(t: number): number {
 }
 
 export function IconCloud({ icons, images }: IconCloudProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [iconPositions, setIconPositions] = useState<Icon[]>([])
+  const iconPositionsRef = useRef<Icon[]>([])
+  const [canvasSize, setCanvasSize] = useState({ width: 500, height: 500 })
   const [isDragging, setIsDragging] = useState(false)
   const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 })
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
@@ -39,7 +41,24 @@ export function IconCloud({ icons, images }: IconCloudProps) {
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([])
   const imagesLoadedRef = useRef<boolean[]>([])
 
-  // Create icon canvases once when icons/images change
+  // Handle responsive canvas sizing
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const updateSize = () => {
+      const size = Math.min(container.clientWidth, container.clientHeight, 800)
+      setCanvasSize({ width: size, height: size })
+    }
+
+    updateSize()
+    const resizeObserver = new ResizeObserver(updateSize)
+    resizeObserver.observe(container)
+
+    return () => resizeObserver.disconnect()
+  }, [])
+
+  // Create icon canvases and generate initial positions once when icons/images change
   useEffect(() => {
     if (!icons && !images) return
 
@@ -48,8 +67,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
 
     const newIconCanvases = items.map((item, index) => {
       const offscreen = document.createElement("canvas")
-      offscreen.width = 40
-      offscreen.height = 40
+      offscreen.width = 50
+      offscreen.height = 50
       const offCtx = offscreen.getContext("2d")
 
       if (offCtx) {
@@ -63,12 +82,12 @@ export function IconCloud({ icons, images }: IconCloudProps) {
 
             // Create circular clipping path
             offCtx.beginPath()
-            offCtx.arc(20, 20, 20, 0, Math.PI * 2)
+            offCtx.arc(25, 25, 25, 0, Math.PI * 2)
             offCtx.closePath()
             offCtx.clip()
 
             // Draw the image
-            offCtx.drawImage(img, 0, 0, 40, 40)
+            offCtx.drawImage(img, 0, 0, 50, 50)
 
             imagesLoadedRef.current[index] = true
           }
@@ -89,11 +108,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
     })
 
     iconCanvasesRef.current = newIconCanvases
-  }, [icons, images])
 
-  // Generate initial icon positions on a sphere
-  useEffect(() => {
-    const items = icons ?? images ?? []
+    // Generate initial icon positions on a sphere
     const newIcons: Icon[] = []
     const numIcons = items.length || 20
 
@@ -110,15 +126,15 @@ export function IconCloud({ icons, images }: IconCloudProps) {
       const z = Math.sin(phi) * r
 
       newIcons.push({
-        x: x * 100,
-        y: y * 100,
-        z: z * 100,
+        x: x * 180,
+        y: y * 180,
+        z: z * 180,
         scale: 1,
         opacity: 1,
         id: i,
       })
     }
-    setIconPositions(newIcons)
+    iconPositionsRef.current = newIcons
   }, [icons, images])
 
   // Handle mouse events
@@ -132,7 +148,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
     const ctx = canvasRef.current.getContext("2d")
     if (!ctx) return
 
-    iconPositions.forEach((icon) => {
+    iconPositionsRef.current.forEach((icon) => {
       const cosX = Math.cos(rotationRef.current.x)
       const sinX = Math.sin(rotationRef.current.x)
       const cosY = Math.cos(rotationRef.current.y)
@@ -247,7 +263,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
           }
         }
 
-        iconPositions.forEach((icon, index) => {
+        iconPositionsRef.current.forEach((icon, index) => {
           const cosX = Math.cos(rotationRef.current.x)
           const sinX = Math.sin(rotationRef.current.x)
           const cosY = Math.cos(rotationRef.current.y)
@@ -274,7 +290,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
               iconCanvasesRef.current[index] &&
               imagesLoadedRef.current[index]
             ) {
-              ctx.drawImage(iconCanvasesRef.current[index], -20, -20, 40, 40)
+              ctx.drawImage(iconCanvasesRef.current[index], -25, -25, 50, 50)
             }
           } else {
             // Show numbered circles if no icons/images are provided
@@ -302,20 +318,25 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [icons, images, iconPositions, isDragging, mousePos, targetRotation])
+  }, [icons, images, isDragging, mousePos, targetRotation])
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={400}
-      height={400}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      className="rounded-lg"
-      aria-label="Interactive 3D Icon Cloud"
-      role="img"
-    />
+    <div
+      ref={containerRef}
+      className="flex h-full min-h-75 w-full items-center justify-center"
+    >
+      <canvas
+        ref={canvasRef}
+        width={canvasSize.width}
+        height={canvasSize.height}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        className="max-h-full max-w-full rounded-lg"
+        aria-label="Interactive 3D Icon Cloud"
+        role="img"
+      />
+    </div>
   )
 }
