@@ -1,8 +1,15 @@
 ---
-import { ProjectsData } from "@/constants/projects"
+import {
+  ProjectsData,
+  type Project,
+  type ProjectChallenge,
+  type ProjectImpact,
+} from "@/constants/projects"
 import MainLayout from "@/layouts/main.astro"
 import { Dot } from "lucide-react"
-import { ImageCarousel } from "../projects/components/image-carousel"
+import { ImageCarousel } from "./components/_image-carousel"
+
+type Props = { project: Project }
 
 export function getStaticPaths() {
   return ProjectsData.map((project) => ({
@@ -48,7 +55,7 @@ const details = project.details
         </div>
         <div class="flex flex-wrap gap-2">
           {
-            project.stack.map((tech) => (
+            project.stack.map((tech: string) => (
               <span class="border border-border px-2 py-1 text-[10px] text-foreground">
                 {tech}
               </span>
@@ -108,7 +115,7 @@ const details = project.details
         <p class="label mb-4">{details.role}</p>
         <ul class="space-y-2">
           {
-            details.responsibilities.map((item) => (
+            details.responsibilities.map((item: string) => (
               <li class="flex gap-2 text-xs text-muted-foreground">
                 <span class="text-terminal">›</span>
                 {item}
@@ -138,7 +145,7 @@ const details = project.details
         <h2 class="display mb-4 text-2xl">// key_features</h2>
         <ul class="space-y-2">
           {
-            project.features.map((feature) => (
+            project.features.map((feature: string) => (
               <li class="flex gap-2 text-xs text-muted-foreground">
                 <span class="text-terminal">›</span>
                 {feature}
@@ -153,7 +160,7 @@ const details = project.details
         <h2 class="display mb-4 text-2xl">// contributions</h2>
         <ul class="space-y-2">
           {
-            details.contributions.map((item) => (
+            details.contributions.map((item: string) => (
               <li class="flex gap-2 text-xs text-muted-foreground">
                 <span class="text-terminal">›</span>
                 {item}
@@ -168,7 +175,7 @@ const details = project.details
         <h2 class="display mb-6 text-2xl">// challenges_&_solutions</h2>
         <div class="grid gap-4 md:grid-cols-2">
           {
-            details.challenges.map((challenge) => (
+            details.challenges.map((challenge: ProjectChallenge) => (
               <div class="panel p-4">
                 <h3 class="mb-2 text-sm text-terminal">{challenge.title}</h3>
                 <p class="mb-2 text-[10px] text-muted-foreground">
@@ -190,7 +197,7 @@ const details = project.details
         <h2 class="display mb-6 text-2xl">// impact</h2>
         <div class="grid gap-4 md:grid-cols-2">
           {
-            details.impact.map((item) => (
+            details.impact.map((item: ProjectImpact) => (
               <div class="panel p-4">
                 <h3 class="mb-2 text-sm text-terminal">{item.title}</h3>
                 <p class="text-xs text-muted-foreground">{item.desc}</p>
