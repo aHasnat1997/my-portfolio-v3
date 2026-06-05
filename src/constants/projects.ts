@@ -1,4 +1,8 @@
-export type ProjectChallenge = { title: string; problem: string; solution: string }
+export type ProjectChallenge = {
+  title: string
+  problem: string
+  solution: string
+}
 export type ProjectImpact = { title: string; desc: string }
 export type ProjectImage = { src: string; caption: string }
 export type ProjectDetails = {
@@ -434,18 +438,32 @@ export const ProjectsData: Project[] = [
         "This project deepened my understanding of designing multi-role enterprise systems where access control must be consistent across both the API and UI layers. Building the generic PrismaQueryBuilder taught me the value of abstraction — one well-designed utility eliminated hundreds of lines of repetitive query code across 15+ modules. Implementing SSE from scratch gave me practical experience with HTTP streaming, connection lifecycle management, and the trade-offs versus WebSockets for one-directional push scenarios. Designing parallel dashboard aggregation with Prisma $transaction highlighted the importance of minimizing database round trips for data-heavy endpoints. The project also reinforced clean module architecture — thin controllers, service-layer business logic, route-level Zod validation — as the pattern that scales best when a codebase grows to 15+ interconnected modules with complex permission requirements.",
       images: [
         {
-          src: "./assets/image-1.png",
-          caption:
-            "Admin dashboard with KPI cards and month-over-month indicators",
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/Admin dashboard.png",
+          caption: "Admin Dashboard Overview",
         },
         {
-          src: "./assets/image-2.png",
-          caption: "Project management with engineer and equipment assignment",
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/Engineer dashboard.png",
+          caption: "Engineer Dashboard Overview",
         },
         {
-          src: "./assets/image-3.png",
-          caption:
-            "Equipment management with crew assignment and status tracking",
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/Project Manager dashboard.png",
+          caption: "Project Manager Dashboard Overview",
+        },
+        {
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/Admin _ All projects.jpg",
+          caption: "All Projects",
+        },
+        {
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/All Employees.png",
+          caption: "All Employees",
+        },
+        {
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/Admin _ Media.png",
+          caption: "All Media View",
+        },
+        {
+          src: "https://raw.githubusercontent.com/aHasnat1997/Projects_Overviews/refs/heads/main/SMD_Internal_Management_System/assets/View Employee Details - Profile - Personal Information.png",
+          caption: "View Employee Details",
         },
       ],
     },

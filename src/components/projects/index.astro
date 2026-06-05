@@ -5,57 +5,62 @@ import { ProjectsData } from "@/constants/projects"
 <section id="projects" class="px-4 py-16 lg:px-20">
   <div class="label mb-4">— operative deployments</div>
   <h2
-    class="display text-foreground"
+    class="display mb-16 text-foreground"
     style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
   >
     Featured Projects
   </h2>
 
-  <div class="mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-4">
+  <ul class="stack-cards">
     {
-      ProjectsData.map((p) => (
-        <article class="panel flex flex-col p-5">
-          <div class="label">{p.tag}</div>
-          <h3 class="display mt-4 text-xl leading-tight">{p.title}</h3>
-          <p class="mt-2 text-[11px] tracking-widest text-terminal-dim uppercase">
-            {p.blurb}
-          </p>
-          <p class="mt-4 text-xs leading-relaxed text-muted-foreground">
-            {p.desc}
-          </p>
+      ProjectsData.map((p, i) => (
+        <li
+          class="stack-cards__item panel mx-auto flex max-w-7xl flex-col p-5"
+          data-index={i}
+        >
+          <div class="stack-cards__inner js-stack-cards__inner panel flex flex-col p-5">
+            <div class="label">{p.tag}</div>
+            <h3 class="display mt-4 text-xl leading-tight">{p.title}</h3>
+            <p class="mt-2 text-[11px] tracking-widest text-terminal-dim uppercase">
+              {p.blurb}
+            </p>
+            <p class="mt-4 text-xs leading-relaxed text-muted-foreground">
+              {p.desc}
+            </p>
 
-          <div class="label-dim mt-5 mb-2">// tech</div>
-          <div class="flex flex-wrap gap-1.5">
-            {p.stack.map((s) => (
-              <span class="border border-border px-1.5 py-0.5 text-[10px] text-foreground">
-                {s}
-              </span>
-            ))}
+            <div class="label-dim mt-5 mb-2">// tech</div>
+            <div class="flex flex-wrap gap-1.5">
+              {p.stack.map((s) => (
+                <span class="border border-border px-1.5 py-0.5 text-[10px] text-foreground">
+                  {s}
+                </span>
+              ))}
+            </div>
+
+            <div class="label-dim mt-5 mb-2">// key_features</div>
+            <ul class="mb-8 space-y-1.5 text-xs text-muted-foreground">
+              {p.features.map((f) => (
+                <li class="flex gap-2">
+                  <span class="text-terminal">›</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={`/projects/${p.id}`}
+              class="mt-auto block w-full border border-border py-2.5 text-center text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal"
+            >
+              [ view_project ]
+            </a>
           </div>
-
-          <div class="label-dim mt-5 mb-2">// key_features</div>
-          <ul class="mb-8 space-y-1.5 text-xs text-muted-foreground">
-            {p.features.map((f) => (
-              <li class="flex gap-2">
-                <span class="text-terminal">›</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href={`/projects/${p.id}`}
-            class="mt-auto block w-full border border-border py-2.5 text-center text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal"
-          >
-            [ view_project ]
-          </a>
-        </article>
+        </li>
       ))
     }
-  </div>
+  </ul>
 
   {/* Technical log */}
-  <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
+  <div class="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
     <div>
       <h3 class="display text-3xl">
         Technical
@@ -74,35 +79,29 @@ import { ProjectsData } from "@/constants/projects"
       >
         <span>// system_type</span>
         <span>// primary_stack</span>
-        <!-- <span class="text-right">// status</span> -->
       </div>
       {
         [
           [
             "[frontend_dev]",
             "React.js // Next.js // Astro // JavaScript // TypeScript // Tailwind CSS // Zustand // Redux",
-            "ACTIVE",
           ],
           [
             "[backend_dev]",
             "Node.js // Nest.js // Express.js // REST API // Auth & Authorization // Role-based access control",
-            "ACTIVE",
           ],
           [
             "[databases_dev]",
             "PostgreSQL // MongoDB // Prisma ORM // Mongoose // SQL & NoSQL Database Design",
-            "ACTIVE",
           ],
           [
             "[devops_basic]",
             "Docker // Git // VPS // File Storage Systems // S3 & Cloudinary // Deployment Pipelines",
-            "STABLE",
           ],
-        ].map(([type, stack, status]) => (
+        ].map(([type, stack]) => (
           <div class="grid grid-cols-[160px_1fr_80px] gap-4 px-4 py-3 text-xs">
             <span class="text-terminal">{type}</span>
             <span class="text-muted-foreground">{stack}</span>
-            {/* <span class="text-right text-terminal">{status}</span> */}
           </div>
         ))
       }
@@ -114,3 +113,68 @@ import { ProjectsData } from "@/constants/projects"
     </div>
   </div>
 </section>
+
+<style>
+  .stack-cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .stack-cards__item {
+    position: sticky;
+    top: 5rem;
+    transform-origin: center top;
+  }
+
+  .stack-cards__item + .stack-cards__item {
+    margin-top: 1.5rem;
+  }
+</style>
+
+<script>
+  function init(el: HTMLElement) {
+    const items = Array.from(
+      el.querySelectorAll<HTMLElement>(".stack-cards__item")
+    )
+
+    // z-index: later cards on top
+    items.forEach((item, i) => {
+      item.style.zIndex = String(i + 1)
+    })
+
+    let ticking = false
+
+    function animate() {
+      const elTop = el.getBoundingClientRect().top
+
+      items.forEach((item, i) => {
+        // distance scrolled past this card's stick point
+        const scrolled = -elTop - i * (item.offsetHeight + 24)
+        if (scrolled > 0 && i < items.length - 1) {
+          const scale = Math.max(0.85, 1 - scrolled * 0.0003)
+          item.style.transform = `scale(${scale})`
+        } else {
+          item.style.transform = ""
+        }
+      })
+
+      ticking = false
+    }
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return
+        ticking = true
+        requestAnimationFrame(animate)
+      },
+      { passive: true }
+    )
+  }
+
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const el = document.querySelector<HTMLElement>(".stack-cards")
+    if (el) init(el)
+  }
+</script>
