@@ -1,67 +1,132 @@
 ---
-import { Dot } from "lucide-react"
-import IconGlobe from "./IconGlobe"
+// import IconGlobe from "./IconGlobe"
 import TextType from "./TextType.astro"
+import AstroIcon from "@/assets/Astro.svg"
+import Bun from "@/assets/Bun.svg"
+import CSS from "@/assets/CSS3.svg"
+// import CloudflareWorkers from "@/assets/Cloudflare Workers.svg"
+import Cloudflare from "@/assets/Cloudflare.svg"
+import Docker from "@/assets/Docker.svg"
+import Express from "@/assets/Express.svg"
+import Figma from "@/assets/Figma.svg"
+import Firebase from "@/assets/Firebase.svg"
+import Git from "@/assets/Git.svg"
+import GitHub from "@/assets/GitHub.svg"
+import GitLab from "@/assets/GitLab.svg"
+import HTML from "@/assets/HTML5.svg"
+// import JSON from "@/assets/JSON.svg"
+import JavaScript from "@/assets/JavaScript.svg"
+import Linux from "@/assets/Linux.svg"
+import MongoDB from "@/assets/MongoDB.svg"
+import Mongoose from "@/assets/Mongoose.js.svg"
+import NestJS from "@/assets/Nest.js.svg"
+import NextJS from "@/assets/Next.js.svg"
+import NodeJS from "@/assets/Node.js.svg"
+import PostgreSQL from "@/assets/PostgresSQL.svg"
+import Postman from "@/assets/Postman.svg"
+import React from "@/assets/React.svg"
+import Redis from "@/assets/Redis.svg"
+import SocketIO from "@/assets/Socket.io.svg"
+import Tailwind from "@/assets/Tailwind CSS.svg"
+import TypeScript from "@/assets/TypeScript.svg"
+import VSCode from "@/assets/Visual Studio Code (VS Code).svg"
+import Redux from "@/assets/Redux.svg"
+import Zustand from "@/assets/Zustand.svg"
+
+const allIcons = [
+  HTML,
+  CSS,
+  Tailwind,
+  JavaScript,
+  TypeScript,
+  React,
+  AstroIcon,
+  NextJS,
+  NestJS,
+  Express,
+  Bun,
+  NodeJS,
+  Redux,
+  Zustand,
+  Docker,
+  Cloudflare,
+  Figma,
+  Firebase,
+  Git,
+  GitHub,
+  GitLab,
+  MongoDB,
+  Mongoose,
+  PostgreSQL,
+  Redis,
+  SocketIO,
+  Postman,
+  Linux,
+  VSCode,
+  // JSON,
+  // CloudflareWorkers,
+]
 ---
 
-{/* Hero */}
-<section class="px-4 pt-12 lg:px-20">
-  <div
-    class="flex w-full flex-col items-start justify-between gap-6 md:flex-row md:items-center"
-  >
-    <div>
-      <div class="label mb-6">— operator id: hasnat_md</div>
-      <h1
-        class="display text-foreground"
-        style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
-      >
-        Hasnat
-      </h1>
-
-      <TextType />
-    </div>
-
-    <div class="hidden h-fit w-full md:block md:w-[50%]">
-      <IconGlobe client:load />
-    </div>
-  </div>
-</section>
-
-{/* Intro grid */}
-<section class="grid grid-cols-1 gap-10 px-4 lg:grid-cols-3 lg:px-20">
-  <div>
-    <div class="label mb-3">— current status</div>
-    <p class="text-sm leading-relaxed text-muted-foreground">
-      Building scalable, high-performance web applications that solve real-world
-      client experience across frontend, backend, databases, and deployment
-      infrastructure.
-    </p>
+<div>
+  <!-- Hero -->
+  <section class="px-4 pt-30 lg:px-20">
     <div
-      class="mt-6 flex flex-wrap gap-2 text-[11px] tracking-widest uppercase"
+      class="flex w-full flex-col items-start justify-between gap-6 md:flex-row md:items-center"
     >
-      <a
-        href="#projects"
-        class="border border-terminal bg-terminal/10 px-3 py-2 text-terminal hover:bg-terminal/20"
+      <div>
+        <div class="label mb-6">— operator id: a.hasnat</div>
+        <h1
+          class="display text-foreground"
+          style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
+        >
+          Hasnat
+        </h1>
+
+        <TextType />
+      </div>
+
+      <div class="hidden h-fit w-full md:block md:w-[50%]">
+        <!-- <IconGlobe client:load /> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro grid -->
+  <section class="mt-32 grid grid-cols-1 gap-10 px-4 lg:grid-cols-3 lg:px-20">
+    <div>
+      <div class="label mb-3">— current status</div>
+      <p class="text-sm leading-relaxed text-muted-foreground">
+        Building scalable, high-performance web applications that solve
+        real-world client experience across frontend, backend, databases, and
+        deployment infrastructure.
+      </p>
+      <div
+        class="mt-6 flex flex-wrap gap-2 text-[11px] tracking-widest uppercase"
       >
-        [ view_work ]
-      </a>
-      <!-- <a
+        <a
+          href="#projects"
+          class="border border-terminal bg-terminal/10 px-3 py-2 text-terminal hover:bg-terminal/20"
+        >
+          [ view_work ]
+        </a>
+        <!-- <a
         href="#experience"
         class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
       >
         [ download_resume ]
       </a> -->
-      <a
-        href="#contact"
-        class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
-      >
-        [ contact ]
-      </a>
+        <a
+          href="#contact"
+          class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
+        >
+          [ contact ]
+        </a>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <!-- <div class="label mb-3">— core expertise</div>
+    <div>
+      <!-- <div class="label mb-3">— core expertise</div>
     <ul class="space-y-2 text-sm">
       {
         [
@@ -79,25 +144,49 @@ import TextType from "./TextType.astro"
         ))
       }
     </ul> -->
-  </div>
+    </div>
 
-  <div>
-    <div class="label mb-3">— focus areas</div>
-    <ul class="space-y-2 text-sm tracking-wider uppercase">
+    <div>
+      <div class="label mb-3">— focus areas</div>
+      <ul class="space-y-2 text-sm tracking-wider uppercase">
+        {
+          [
+            "Scalable systems",
+            "Resilient APIs & SDKs",
+            "Performance & DX",
+            "Architecture & design",
+            "AI & LLM workflows",
+          ].map((t) => (
+            <li class="flex items-center gap-3 text-muted-foreground">
+              <span class="text-terminal">›</span>
+              {t}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Icon Marquee -->
+  <section class="relative overflow-hidden pt-28">
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-linear-to-r from-background to-transparent"
+    >
+    </div>
+
+    <div class="animate-marquee flex w-max items-center">
       {
-        [
-          "Scalable systems",
-          "Resilient APIs & SDKs",
-          "Performance & DX",
-          "Architecture & design",
-          "AI & LLM workflows",
-        ].map((t) => (
-          <li class="flex items-center gap-3 text-muted-foreground">
-            <span class="text-terminal">›</span>
-            {t}
-          </li>
+        [...allIcons, ...allIcons].map((Icon) => (
+          <div class="px-5">
+            <Icon class="size-10 shrink-0 md:size-20" />
+          </div>
         ))
       }
-    </ul>
-  </div>
-</section>
+    </div>
+
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-linear-to-l from-background to-transparent"
+    >
+    </div>
+  </section>
+</div>
