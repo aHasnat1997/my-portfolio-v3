@@ -1,0 +1,181 @@
+---
+import { Dot } from "lucide-react";
+---
+
+<section id="workflow" class="px-4 py-16 lg:px-20">
+  <div class="label mb-4">— quality standards</div>
+  <h2
+    class="gsap-workflow-reveal display mb-16 text-foreground"
+    style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
+  >
+    Development Workflow
+  </h2>
+
+  <div class="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_500px]">
+    <!-- Left side: Timeline -->
+    <div class="flex flex-col border-l border-border pl-6 lg:pl-10 space-y-16 relative">
+    <!-- Pipeline Line Indicator -->
+    <div class="absolute left-0 top-0 bottom-0 w-px bg-terminal/20 -translate-x-px"></div>
+    {
+      [
+        {
+          step: "01",
+          phase: "Architecture & Design",
+          desc: "Before writing any code, I analyze the requirements and design the system architecture. This includes database schemas, API contracts, state management strategies, and component hierarchies to ensure scalability from day one.",
+        },
+        {
+          step: "02",
+          phase: "Execution & Development",
+          desc: "Writing clean, modular, and W3C-standard code. I strictly use TypeScript for type safety, and enforce linting and formatting rules to maintain a high quality, readable codebase.",
+        },
+        {
+          step: "03",
+          phase: "Optimization & QA",
+          desc: "Profiling performance to ensure fast load times, smooth animations, and responsive layouts. Implementing SEO best practices, accessibility (a11y) standards, and cross-browser testing.",
+        },
+        {
+          step: "04",
+          phase: "Deployment & CI/CD",
+          desc: "Setting up resilient deployment pipelines using GitHub Actions or native platform tools (Vercel, Cloudflare). Ensuring the application is monitored, secure, and production-ready.",
+        },
+      ].map((flow) => (
+        <div class="gsap-workflow-step relative">
+          <!-- Node Dot -->
+          <div class="absolute -left-[30px] lg:-left-[46px] top-1.5 size-2.5 bg-terminal shadow-[0_0_10px_rgba(var(--terminal),0.5)]"></div>
+          
+          <div class="flex items-center gap-4 mb-4">
+            <span class="text-xs tracking-widest text-terminal-dim uppercase">// phase_{flow.step}</span>
+            <h3 class="display text-2xl">{flow.phase}</h3>
+          </div>
+          <p class="text-sm leading-relaxed text-muted-foreground max-w-3xl">
+            {flow.desc}
+          </p>
+        </div>
+      ))
+    }
+    </div>
+
+    <!-- Right side: Sticky Terminal Status (Desktop Only) -->
+    <div class="hidden lg:block relative w-full">
+      <div class="gsap-workflow-terminal sticky top-24 panel border border-border bg-card/40 p-8 shadow-2xl h-[550px] flex flex-col">
+        <div class="mb-6 flex items-center gap-3 border-b border-border pb-4">
+          <div class="flex gap-2">
+            <div class="size-3 rounded-full bg-red-500/80"></div>
+            <div class="size-3 rounded-full bg-yellow-500/80"></div>
+            <div class="size-3 rounded-full bg-green-500/80"></div>
+          </div>
+          <span class="ml-2 text-[11px] tracking-widest text-muted-foreground uppercase font-mono">operator@hasnat: ~/portfolio/build</span>
+        </div>
+        <div class="space-y-4 font-mono text-xs leading-relaxed text-terminal-dim flex-1">
+          <div class="gsap-term-line">
+            <span class="text-terminal">hasnat@dev:~$</span> ./run_quality_checks.sh
+          </div>
+          <div class="gsap-term-line text-muted-foreground">
+            [+] Initiating system architecture analysis...
+          </div>
+          <div class="gsap-term-line text-muted-foreground">
+            [+] Validating REST API contracts... <span class="text-terminal">PASS</span>
+          </div>
+          <div class="gsap-term-line mt-4">
+            <span class="text-terminal">hasnat@dev:~$</span> npm run build
+          </div>
+          <div class="gsap-term-line text-muted-foreground">
+            > portfolio@0.0.1 build<br/>
+            > astro build
+          </div>
+          <div class="gsap-term-line text-muted-foreground">
+            12:04:32 AM [build] output target: static<br/>
+            12:04:32 AM [build] compiling assets...
+          </div>
+          <div class="gsap-term-line text-terminal">
+            ✓ 148 modules transformed in 1.2s
+          </div>
+          <div class="gsap-term-line text-muted-foreground">
+            [+] Optimizing images... <span class="text-terminal">PASS</span><br/>
+            [+] Lighthouse score: 100/100/100/100
+          </div>
+          <div class="gsap-term-line text-terminal mt-6">
+            >> SYSTEM READY FOR DEPLOYMENT.
+          </div>
+          <div class="mt-4 animate-pulse">
+            <span class="text-terminal">hasnat@dev:~$</span> <span class="inline-block w-2 h-4 bg-terminal align-middle"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Reveal heading
+  gsap.fromTo(
+    ".gsap-workflow-reveal",
+    { y: 50, autoAlpha: 0 },
+    {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".gsap-workflow-reveal",
+        start: "top 85%",
+      },
+    }
+  );
+
+  // Stagger steps
+  gsap.fromTo(
+    ".gsap-workflow-step",
+    { x: -30, autoAlpha: 0 },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.8,
+      stagger: 0.3,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".gsap-workflow-step",
+        start: "top 85%",
+      },
+    }
+  );
+
+  // Reveal terminal container
+  gsap.fromTo(
+    ".gsap-workflow-terminal",
+    { x: 30, autoAlpha: 0 },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".gsap-workflow-terminal",
+        start: "top 85%",
+      },
+    }
+  );
+
+  // Animate terminal lines on scroll scrub
+  gsap.fromTo(
+    ".gsap-term-line",
+    { opacity: 0, x: -10 },
+    {
+      opacity: 1,
+      x: 0,
+      stagger: 0.2,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#workflow",
+        start: "top 40%",
+        end: "bottom 80%",
+        scrub: true,
+      },
+    }
+  );
+</script>
