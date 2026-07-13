@@ -79,5 +79,28 @@ const {
   <body>
     <Analytics />
     <slot />
+    <script>
+      import Lenis from "lenis";
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      import "lenis/dist/lenis.css";
+
+      // Register ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Initialize Lenis
+      const lenis = new Lenis();
+
+      // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+      lenis.on("scroll", ScrollTrigger.update);
+
+      // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      // Disable lag smoothing in GSAP to prevent any delay in scroll animations
+      gsap.ticker.lagSmoothing(0);
+    </script>
   </body>
 </html>

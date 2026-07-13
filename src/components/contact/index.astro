@@ -6,7 +6,7 @@ import { Dot } from "lucide-react"
   id="contact"
   class="grid grid-cols-1 gap-32 px-4 py-16 lg:grid-cols-2 lg:px-20"
 >
-  <div>
+  <div class="gsap-contact-reveal">
     <div class="label mb-4">— operative // contact_log</div>
     <h2 class="display" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
       Let's build
@@ -24,7 +24,7 @@ import { Dot } from "lucide-react"
         ].map(([k, v]) => (
           <a
             href={`https://${v}`}
-            class="grid grid-cols-[100px_1fr] items-center gap-4 border border-border bg-card/40 px-3 py-2"
+            class="gsap-contact-link grid grid-cols-[100px_1fr] items-center gap-4 border border-border bg-card/40 px-3 py-2 transition-colors hover:border-terminal hover:bg-terminal/10"
           >
             <dt class="text-[10px] tracking-widest text-terminal">{k}</dt>
             <dd class="text-xs tracking-wider text-foreground">{v}</dd>
@@ -39,7 +39,7 @@ import { Dot } from "lucide-react"
     </p>
   </div>
 
-  <div>
+  <div class="gsap-contact-reveal">
     <div class="label mb-4">— availability profile</div>
     <ul class="space-y-2 text-sm">
       {
@@ -48,7 +48,7 @@ import { Dot } from "lucide-react"
           "Frontend Engineering roles",
           "Product-focused engineering teams",
         ].map((t) => (
-          <li class="flex items-center gap-3 border border-border bg-card/40 px-3 py-3">
+          <li class="gsap-contact-role flex items-center gap-3 border border-border bg-card/40 px-3 py-3 transition-colors hover:border-terminal/50">
             <Dot />
             <span class="tracking-wider uppercase">{t}</span>
           </li>
@@ -72,3 +72,62 @@ import { Dot } from "lucide-react"
     </p>
   </div>
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Reveal columns
+  gsap.utils.toArray(".gsap-contact-reveal").forEach((elem: any) => {
+    gsap.fromTo(
+      elem,
+      { y: 50, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 90%",
+        },
+      }
+    );
+  });
+
+  // Stagger contact links
+  gsap.fromTo(
+    ".gsap-contact-link",
+    { x: -20, autoAlpha: 0 },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".gsap-contact-link",
+        start: "top 90%",
+      },
+    }
+  );
+
+  // Stagger roles
+  gsap.fromTo(
+    ".gsap-contact-role",
+    { y: 20, autoAlpha: 0 },
+    {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".gsap-contact-role",
+        start: "top 90%",
+      },
+    }
+  );
+</script>

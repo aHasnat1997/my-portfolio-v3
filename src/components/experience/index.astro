@@ -8,7 +8,7 @@
   </h2>
 
   <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
-    <div>
+    <div class="gsap-experience-reveal">
       <div class="label mb-3">— current role</div>
       <h3 class="display text-2xl">Frontend Developer</h3>
       <div class="mt-1 text-xs tracking-widest text-terminal uppercase">
@@ -37,7 +37,7 @@
             "Collaborated with backend and design teams to deliver production-ready features.",
             "Understanding client requirements and effectively managing feedback.",
           ].map((t) => (
-            <li class="flex gap-3 text-muted-foreground">
+            <li class="gsap-experience-list flex gap-3 text-muted-foreground">
               <span class="text-terminal">▸</span>
               <span>{t}</span>
             </li>
@@ -53,7 +53,7 @@
             "Order Tools",
             "High-performance APIs",
           ].map((t) => (
-            <span class="border border-border px-2 py-1 text-muted-foreground">
+            <span class="gsap-experience-tag border border-border px-2 py-1 text-muted-foreground transition-colors hover:border-terminal hover:text-terminal cursor-default">
               {t}
             </span>
           ))
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="gsap-experience-reveal">
       <div class="label mb-3">— skill summary</div>
       <p class="text-sm leading-relaxed text-muted-foreground">
         Working on production-level applications involving frontend systems,
@@ -84,3 +84,62 @@
     </div>
   </div>
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Reveal columns
+  gsap.utils.toArray(".gsap-experience-reveal").forEach((elem: any) => {
+    gsap.fromTo(
+      elem,
+      { y: 50, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%",
+        },
+      }
+    );
+  });
+
+  // Stagger list items
+  gsap.fromTo(
+    ".gsap-experience-list",
+    { x: -20, autoAlpha: 0 },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".gsap-experience-list",
+        start: "top 90%",
+      },
+    }
+  );
+
+  // Stagger tags
+  gsap.fromTo(
+    ".gsap-experience-tag",
+    { scale: 0.8, autoAlpha: 0 },
+    {
+      scale: 1,
+      autoAlpha: 1,
+      duration: 0.4,
+      stagger: 0.05,
+      ease: "back.out(1.5)",
+      scrollTrigger: {
+        trigger: ".gsap-experience-tag",
+        start: "top 95%",
+      },
+    }
+  );
+</script>

@@ -70,18 +70,20 @@ const allIcons = [
 
 <div>
   <!-- Hero -->
-  <section class="px-4 pt-30 lg:px-20">
+  <section class="hero-section px-4 pt-30 lg:px-20">
     <div
       class="flex w-full flex-col items-start justify-between gap-6 md:flex-row md:items-center"
     >
       <div>
-        <div class="label mb-6">— operator id: a.hasnat</div>
-        <h1
-          class="display text-foreground"
-          style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
-        >
-          Hasnat
-        </h1>
+        <div class="gsap-hero-fade label mb-6">— operator id: a.hasnat</div>
+        <div class="overflow-hidden">
+          <h1
+            class="gsap-hero-title display text-foreground"
+            style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
+          >
+            Hasnat
+          </h1>
+        </div>
 
         <TextType />
       </div>
@@ -94,7 +96,7 @@ const allIcons = [
 
   <!-- Intro grid -->
   <section class="mt-32 grid grid-cols-1 gap-10 px-4 lg:grid-cols-3 lg:px-20">
-    <div>
+    <div class="gsap-hero-stagger">
       <div class="label mb-3">— current status</div>
       <p class="text-sm leading-relaxed text-muted-foreground">
         Building scalable, high-performance web applications that solve
@@ -146,7 +148,7 @@ const allIcons = [
     </ul> -->
     </div>
 
-    <div>
+    <div class="gsap-hero-stagger">
       <div class="label mb-3">— focus areas</div>
       <ul class="space-y-2 text-sm tracking-wider uppercase">
         {
@@ -190,3 +192,31 @@ const allIcons = [
     </div>
   </section>
 </div>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+  tl.fromTo(
+    ".gsap-hero-title",
+    { yPercent: 100, autoAlpha: 0 },
+    { yPercent: 0, autoAlpha: 1, duration: 1.2, delay: 0.2 }
+  )
+  .fromTo(
+    ".gsap-hero-fade",
+    { y: 20, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 1 },
+    "-=0.8"
+  )
+  .fromTo(
+    ".gsap-hero-stagger",
+    { y: 30, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.2 },
+    "-=0.6"
+  );
+</script>
+

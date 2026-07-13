@@ -1,5 +1,5 @@
-<section class="grid grid-cols-1 gap-8 px-4 py-16 lg:grid-cols-2 lg:px-20">
-  <div>
+<section class="about-section grid grid-cols-1 gap-8 px-4 py-16 lg:grid-cols-2 lg:px-20">
+  <div class="gsap-about-reveal">
     <div class="label mb-6">— operative briefing</div>
     <h2
       class="display text-foreground"
@@ -18,7 +18,7 @@
     </p>
   </div>
 
-  <div>
+  <div class="gsap-about-reveal">
     <div class="label mb-4">
       Developer focused on real-world product engineering
     </div>
@@ -46,7 +46,7 @@
           "Problem-solving mindset",
           "Fast adaptability to new tech",
         ].map((t) => (
-          <div class="flex items-start gap-2 border border-border bg-card/40 px-3 py-2">
+          <div class="gsap-about-card flex items-start gap-2 border border-border bg-card/40 px-3 py-2 transition-colors hover:border-terminal hover:bg-terminal/10">
             <span class="text-terminal">✓</span>
             <span class="tracking-wider uppercase">{t}</span>
           </div>
@@ -55,3 +55,45 @@
     </div>
   </div>
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Reveal left and right columns
+  gsap.utils.toArray(".gsap-about-reveal").forEach((elem: any) => {
+    gsap.fromTo(
+      elem,
+      { y: 50, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%",
+        },
+      }
+    );
+  });
+
+  // Stagger cards
+  gsap.fromTo(
+    ".gsap-about-card",
+    { y: 20, autoAlpha: 0 },
+    {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".gsap-about-card",
+        start: "top 90%",
+      },
+    }
+  );
+</script>

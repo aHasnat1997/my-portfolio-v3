@@ -5,18 +5,22 @@ import { ProjectsData } from "@/constants/projects"
 <section id="projects" class="px-4 py-16 lg:px-20">
   <div class="label mb-4">— operative deployments</div>
   <h2
-    class="display mb-16 text-foreground"
+    class="gsap-project-reveal display mb-16 text-foreground"
     style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
   >
     Featured Projects
   </h2>
 
   <div class="flex flex-col items-start gap-10 lg:flex-row">
-    <ul>
+    <ul class="projects-list w-full lg:w-[60%] space-y-16 pb-32">
       {
         ProjectsData.map((p, i) => (
-          <li class="panel mx-auto flex flex-col p-5" data-index={i}>
-            <div class="flex h-full flex-col p-5">
+          <li 
+            class="gsap-project-card panel mx-auto flex flex-col transition-all duration-300 md:sticky bg-background border border-border md:shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]" 
+            style={`top: calc(1rem + ${i * 1.5}rem); z-index: ${i + 1};`}
+            data-index={i}
+          >
+            <div class="flex h-full flex-col p-8 bg-background">
               <div class="label">{p.tag}</div>
               <h3 class="display mt-4 text-xl leading-tight">{p.title}</h3>
               <p class="mt-2 text-[11px] tracking-widest text-terminal-dim uppercase">
@@ -58,7 +62,7 @@ import { ProjectsData } from "@/constants/projects"
     </ul>
 
     {/* Technical log */}
-    <div class="mx-auto mt-16 w-full md:mt-0 lg:sticky lg:top-4 lg:w-[35%]">
+    <div class="gsap-tech-log mx-auto mt-16 w-full md:mt-0 lg:sticky lg:top-4 lg:w-[35%]">
       <div>
         <h3 class="display text-3xl">Technical Log</h3>
         <p
@@ -93,7 +97,7 @@ import { ProjectsData } from "@/constants/projects"
               "Docker // Git // VPS // File Storage Systems // S3 & Cloudinary // Deployment Pipelines",
             ],
           ].map(([type, stack]) => (
-            <div class="grid grid-cols-[160px_1fr_80px] px-4 py-3 text-xs">
+            <div class="gsap-tech-item grid grid-cols-[160px_1fr_80px] px-4 py-3 text-xs transition-colors hover:bg-terminal/5">
               <span class="text-terminal">{type}</span>
               <span class="text-muted-foreground">{stack}</span>
             </div>
@@ -108,3 +112,78 @@ import { ProjectsData } from "@/constants/projects"
     </div>
   </div>
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Reveal heading
+  gsap.fromTo(
+    ".gsap-project-reveal",
+    { y: 50, autoAlpha: 0 },
+    {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".gsap-project-reveal",
+        start: "top 85%",
+      },
+    }
+  );
+
+  // Stagger project cards entrance
+  gsap.fromTo(
+    ".gsap-project-card",
+    { y: 100, autoAlpha: 0 },
+    {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".projects-list",
+        start: "top 80%",
+      },
+    }
+  );
+
+  // CSS sticky handles the stacking perfectly, we just stagger their entrance.
+
+  // Tech log reveal
+  gsap.fromTo(
+    ".gsap-tech-log",
+    { x: 30, autoAlpha: 0 },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".gsap-tech-log",
+        start: "top 85%",
+      },
+    }
+  );
+
+  // Tech log items stagger
+  gsap.fromTo(
+    ".gsap-tech-item",
+    { x: 20, autoAlpha: 0 },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".gsap-tech-log",
+        start: "top 80%",
+      },
+    }
+  );
+</script>
