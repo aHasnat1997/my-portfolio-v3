@@ -45,14 +45,17 @@ import Contact from "@/components/contact/index.astro"
       <Contact />
     </div>
 
-    {/* Footer */}
-    <footer
-      class="flex flex-col gap-2 px-4 py-6 text-[10px] tracking-widest text-muted-foreground uppercase sm:flex-row sm:justify-between lg:px-20"
-    >
-      <span>
-        © {new Date().getFullYear()} hasnat.dev // all systems operational
-      </span>
-      <span>built with React + Astro // designed in the dark</span>
-    </footer>
+    {/* Bottom footer bar */}
+    <div class="mt-16 flex flex-col items-center gap-2 py-8 text-center">
+      <p
+        class="cursor-blink text-[10px] tracking-widest text-muted-foreground uppercase"
+      >
+        system synchronized // all channels active // ready &gt; project rebrief
+        incoming
+      </p>
+      <p class="text-[10px] tracking-widest text-terminal-dim uppercase">
+        © {new Date().getFullYear()} A. Hasnat — All rights reserved.
+      </p>
+    </div>
   </main>
 </MainLayout>
