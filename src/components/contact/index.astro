@@ -57,6 +57,7 @@
                 href={href}
                 target="_blank"
                 rel="noreferrer"
+                data-contact-channel={label.replace("_", "")}
                 class="gsap-contact-link group flex items-center gap-5 border border-border bg-card/40 px-5 py-4 transition-all duration-300 hover:border-terminal hover:bg-terminal/5"
               >
                 <span class="flex size-9 shrink-0 items-center justify-center border border-border text-lg text-terminal transition-colors group-hover:border-terminal group-hover:bg-terminal/10">
@@ -107,21 +108,33 @@
       <div class="label mb-6">— send a message</div>
 
       {/* Success message (hidden by default) */}
-      <div id="form-success" class="hidden border border-terminal bg-terminal/10 px-6 py-10 text-center">
-        <p class="text-2xl text-terminal display mb-2">[ MESSAGE_SENT ]</p>
-        <p class="text-xs text-muted-foreground tracking-widest uppercase">Transmission received. I'll get back to you within 24h.</p>
+      <div
+        id="form-success"
+        class="hidden border border-terminal bg-terminal/10 px-6 py-10 text-center"
+      >
+        <p class="display mb-2 text-2xl text-terminal">[ MESSAGE_SENT ]</p>
+        <p class="text-xs tracking-widest text-muted-foreground uppercase">
+          Transmission received. I'll get back to you within 24h.
+        </p>
       </div>
 
       {/* Error message (hidden by default) */}
-      <div id="form-error" class="hidden border border-red-500/50 bg-red-500/10 px-6 py-4 mb-4">
-        <p class="text-xs text-red-400 tracking-widest uppercase">// error: transmission failed. please try again.</p>
+      <div
+        id="form-error"
+        class="mb-4 hidden border border-red-500/50 bg-red-500/10 px-6 py-4"
+      >
+        <p class="text-xs tracking-widest text-red-400 uppercase">
+          // error: transmission failed. please try again.
+        </p>
       </div>
 
-      {/*
-        ACTION: Replace "YOUR_FORM_ID" below with your Formspree form ID.
+      {
+        /*
+        ACTION: Replace "YOUR_FORM_ID" below with your Form spree form ID.
         Go to https://formspree.io → New Form → copy the ID (e.g. xpwzgkjr)
         Then set action="https://formspree.io/f/YOUR_FORM_ID"
-      */}
+      */
+      }
       <form
         id="contact-form"
         action="https://formspree.io/f/YOUR_FORM_ID"
@@ -131,50 +144,66 @@
       >
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div class="form-field">
-            <label for="contact-name" class="label-dim mb-2 block text-[10px] tracking-widest uppercase">// name_</label>
+            <label
+              for="contact-name"
+              class="label-dim mb-2 block text-[10px] tracking-widest uppercase"
+              >// name_</label
+            >
             <input
               type="text"
               id="contact-name"
               name="name"
               required
               placeholder="John Doe"
-              class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-colors focus:border-terminal"
+              class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
             />
           </div>
           <div class="form-field">
-            <label for="contact-email" class="label-dim mb-2 block text-[10px] tracking-widest uppercase">// email_</label>
+            <label
+              for="contact-email"
+              class="label-dim mb-2 block text-[10px] tracking-widest uppercase"
+              >// email_</label
+            >
             <input
               type="email"
               id="contact-email"
               name="email"
               required
               placeholder="john@example.com"
-              class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-colors focus:border-terminal"
+              class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
             />
           </div>
         </div>
 
         <div class="form-field">
-          <label for="contact-subject" class="label-dim mb-2 block text-[10px] tracking-widest uppercase">// subject_</label>
+          <label
+            for="contact-subject"
+            class="label-dim mb-2 block text-[10px] tracking-widest uppercase"
+            >// subject_</label
+          >
           <input
             type="text"
             id="contact-subject"
             name="subject"
             required
             placeholder="Project inquiry / Job opportunity / Freelance..."
-            class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-colors focus:border-terminal"
+            class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
           />
         </div>
 
         <div class="form-field">
-          <label for="contact-message" class="label-dim mb-2 block text-[10px] tracking-widest uppercase">// message_</label>
+          <label
+            for="contact-message"
+            class="label-dim mb-2 block text-[10px] tracking-widest uppercase"
+            >// message_</label
+          >
           <textarea
             id="contact-message"
             name="message"
             required
             rows={6}
             placeholder="Tell me about your project, role, or idea..."
-            class="contact-input w-full resize-none border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none transition-colors focus:border-terminal"
+            class="contact-input w-full resize-none border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
           ></textarea>
         </div>
 
@@ -184,13 +213,14 @@
           class="group relative w-full overflow-hidden border border-terminal bg-terminal/10 py-4 text-center text-xs tracking-[0.3em] text-terminal uppercase transition-all duration-300 hover:bg-terminal/20 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <span id="submit-label">[ transmit_message → ]</span>
-          <span id="submit-loading" class="hidden animate-pulse">[ transmitting... ]</span>
+          <span id="submit-loading" class="hidden animate-pulse"
+            >[ transmitting... ]</span
+          >
         </button>
       </form>
     </div>
   </div>
 </section>
-
 
 <script>
   import gsap from "gsap"
@@ -241,6 +271,23 @@
     }
   )
 
+  function setupContactTracking() {
+    document
+      .querySelectorAll<HTMLElement>("[data-contact-channel]")
+      .forEach((link) => {
+        if (link.dataset.trackingBound) return
+        link.dataset.trackingBound = "true"
+        link.addEventListener("click", () => {
+          window.posthog?.capture("contact_channel_clicked", {
+            channel: link.dataset.contactChannel,
+          })
+        })
+      })
+  }
+
+  document.addEventListener("DOMContentLoaded", setupContactTracking)
+  document.addEventListener("astro:page-load", setupContactTracking)
+
   // Focus glow on inputs
   document.querySelectorAll(".contact-input").forEach((input) => {
     input.addEventListener("focus", () => {
@@ -253,7 +300,9 @@
 
   // Form submission via fetch (no page redirect)
   const form = document.getElementById("contact-form") as HTMLFormElement
-  const submitBtn = document.getElementById("contact-submit") as HTMLButtonElement
+  const submitBtn = document.getElementById(
+    "contact-submit"
+  ) as HTMLButtonElement
   const submitLabel = document.getElementById("submit-label")!
   const submitLoading = document.getElementById("submit-loading")!
   const successMsg = document.getElementById("form-success")!
@@ -263,13 +312,24 @@
     e.preventDefault()
 
     // Basic client-side validation
-    const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input[required], textarea[required]")
+    const inputs = form.querySelectorAll<
+      HTMLInputElement | HTMLTextAreaElement
+    >("input[required], textarea[required]")
     let valid = true
     inputs.forEach((input) => {
       if (!input.value.trim()) {
         valid = false
-        gsap.fromTo(input, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" })
-        gsap.to(input, { borderColor: "rgba(239,68,68,0.7)", duration: 0.2, yoyo: true, repeat: 1 })
+        gsap.fromTo(
+          input,
+          { x: -6 },
+          { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" }
+        )
+        gsap.to(input, {
+          borderColor: "rgba(239,68,68,0.7)",
+          duration: 0.2,
+          yoyo: true,
+          repeat: 1,
+        })
       }
     })
     if (!valid) return
@@ -291,18 +351,28 @@
       if (res.ok) {
         // Success
         form.classList.add("hidden")
-        gsap.fromTo(successMsg, { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, ease: "power3.out" })
+        gsap.fromTo(
+          successMsg,
+          { y: 20, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.6, ease: "power3.out" }
+        )
         successMsg.classList.remove("hidden")
+        window.posthog?.capture("contact_form_submitted")
       } else {
         throw new Error("Server error")
       }
-    } catch {
+    } catch (error) {
+      window.posthog?.capture("contact_form_failed")
+      window.posthog?.captureException(error)
       errorMsg.classList.remove("hidden")
-      gsap.fromTo(errorMsg, { y: -10, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4 })
+      gsap.fromTo(
+        errorMsg,
+        { y: -10, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.4 }
+      )
       submitBtn.disabled = false
       submitLabel.classList.remove("hidden")
       submitLoading.classList.add("hidden")
     }
   })
 </script>
-

@@ -29,6 +29,10 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
   const openModal = (index: number) => {
     setSelectedIndex(index)
     setModalOpen(true)
+    window.posthog?.capture("project_image_opened", {
+      image_index: index,
+      image_count: images.length,
+    })
   }
 
   return (

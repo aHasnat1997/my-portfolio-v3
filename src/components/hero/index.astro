@@ -108,6 +108,7 @@ const allIcons = [
       >
         <a
           href="#projects"
+          data-hero-cta="view_work"
           class="border border-terminal bg-terminal/10 px-3 py-2 text-terminal hover:bg-terminal/20"
         >
           [ view_work ]
@@ -120,6 +121,7 @@ const allIcons = [
       </a> -->
         <a
           href="#contact"
+          data-hero-cta="contact"
           class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
         >
           [ contact ]
@@ -198,6 +200,21 @@ const allIcons = [
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   
   gsap.registerPlugin(ScrollTrigger);
+
+  function setupHeroTracking() {
+    document.querySelectorAll<HTMLElement>("[data-hero-cta]").forEach((link) => {
+      if (link.dataset.trackingBound) return
+      link.dataset.trackingBound = "true"
+      link.addEventListener("click", () => {
+        window.posthog?.capture("hero_cta_clicked", {
+          cta: link.dataset.heroCta,
+        })
+      })
+    })
+  }
+
+  document.addEventListener("DOMContentLoaded", setupHeroTracking)
+  document.addEventListener("astro:page-load", setupHeroTracking)
 
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 

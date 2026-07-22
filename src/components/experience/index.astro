@@ -18,6 +18,7 @@
         <a
           href="https://softvence.agency/"
           target="_blank"
+          id="company-link"
           class="text-xl hover:underline"
         >
           Softvence Agency
@@ -90,6 +91,20 @@
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
+
+  function setupCompanyTracking() {
+    const link = document.getElementById("company-link")
+    if (!link || link.dataset.trackingBound) return
+    link.dataset.trackingBound = "true"
+    link.addEventListener("click", () => {
+      window.posthog?.capture("company_link_clicked", {
+        company: "softvence_agency",
+      })
+    })
+  }
+
+  document.addEventListener("DOMContentLoaded", setupCompanyTracking)
+  document.addEventListener("astro:page-load", setupCompanyTracking)
 
   // Reveal columns
   gsap.utils.toArray(".gsap-experience-reveal").forEach((elem: any) => {

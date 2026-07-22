@@ -51,7 +51,8 @@ import { ProjectsData } from "@/constants/projects"
 
               <a
                 href={`/projects/${p.id}`}
-                class="mt-auto block w-full border border-border py-2.5 text-center text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal"
+                data-project-id={p.id}
+                class="project-link mt-auto block w-full border border-border py-2.5 text-center text-[11px] tracking-widest text-foreground uppercase transition-colors hover:border-terminal hover:text-terminal"
               >
                 [ view_project ]
               </a>
@@ -118,6 +119,21 @@ import { ProjectsData } from "@/constants/projects"
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
+
+  function setupProjectTracking() {
+    document.querySelectorAll<HTMLElement>(".project-link").forEach((link) => {
+      if (link.dataset.trackingBound) return
+      link.dataset.trackingBound = "true"
+      link.addEventListener("click", () => {
+        window.posthog?.capture("project_opened", {
+          project_id: link.dataset.projectId,
+        })
+      })
+    })
+  }
+
+  document.addEventListener("DOMContentLoaded", setupProjectTracking)
+  document.addEventListener("astro:page-load", setupProjectTracking)
 
   // Reveal heading
   gsap.fromTo(
