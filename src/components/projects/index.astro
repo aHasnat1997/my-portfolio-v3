@@ -172,12 +172,13 @@ import { ProjectsData } from "@/constants/projects"
 
   // CSS sticky handles the stacking perfectly, we just stagger their entrance.
 
-  // Tech log reveal
+  const isMobile = window.innerWidth < 768
   gsap.fromTo(
     ".gsap-tech-log",
-    { x: 30, autoAlpha: 0 },
+    { x: isMobile ? 0 : 30, y: isMobile ? 60 : 0, autoAlpha: 0 },
     {
       x: 0,
+      y: 0,
       autoAlpha: 1,
       duration: 0.8,
       ease: "power3.out",
@@ -191,9 +192,10 @@ import { ProjectsData } from "@/constants/projects"
   // Tech log items stagger
   gsap.fromTo(
     ".gsap-tech-item",
-    { x: 20, autoAlpha: 0 },
+    { x: isMobile ? 0 : 20, y: isMobile ? 30 : 0, autoAlpha: 0 },
     {
       x: 0,
+      y: 0,
       autoAlpha: 1,
       duration: 0.5,
       stagger: 0.1,

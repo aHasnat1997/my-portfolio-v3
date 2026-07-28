@@ -314,7 +314,7 @@ export const ProjectsData: Project[] = [
   {
     id: "sarkar-group-smd",
     tag: "// project_03",
-    title: "Sarkar Group SMD — Enterprise Internal Platform",
+    title: "Enterprise Internal Platform",
     blurb:
       "Production internal platform for construction company managing 1000+ employees, equipment, projects, and multi-department workflows with real-time SSE notifications.",
     desc: "A full-stack enterprise management platform replacing fragmented spreadsheet workflows with a unified, role-scoped system. Serves 1000+ internal users across 5 distinct roles (Super Admin, Admin, Project Manager, Engineer, Client) with purpose-built dashboards for project management, equipment tracking, financial approvals, HR applications, and real-time notifications. Active in production for day-to-day company operations.",

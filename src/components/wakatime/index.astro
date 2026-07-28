@@ -73,7 +73,9 @@ const bestDay = data?.best_day
           ].map((s) => (
             <div class="flex flex-col gap-1 bg-background px-5 py-4">
               <span class="label-dim">{s.label}</span>
-              <span class="display text-3xl text-terminal">{s.value}</span>
+              <span class="display text-xl text-terminal md:text-3xl">
+                {s.value}
+              </span>
             </div>
           ))}
         </div>
