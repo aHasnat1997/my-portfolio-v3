@@ -1,4 +1,6 @@
-<section class="about-section grid grid-cols-1 gap-8 px-4 py-16 lg:grid-cols-2 lg:px-20">
+<section
+  class="about-section grid grid-cols-1 gap-8 px-4 py-16 lg:grid-cols-2 lg:px-20"
+>
   <div class="gsap-about-reveal">
     <div class="label mb-6">— operative briefing</div>
     <h2
@@ -46,7 +48,7 @@
           "Problem-solving mindset",
           "Fast adaptability to new tech",
         ].map((t) => (
-          <div class="gsap-about-card flex items-start gap-2 border border-border bg-card/40 px-3 py-2 transition-colors hover:border-terminal hover:bg-terminal/10">
+          <div class="gsap-about-card cursor-target flex items-start gap-2 border border-border bg-card/40 px-3 py-2 transition-colors hover:border-terminal hover:bg-terminal/10">
             <span class="text-terminal">✓</span>
             <span class="tracking-wider uppercase">{t}</span>
           </div>
@@ -57,10 +59,10 @@
 </section>
 
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  
-  gsap.registerPlugin(ScrollTrigger);
+  import gsap from "gsap"
+  import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+  gsap.registerPlugin(ScrollTrigger)
 
   // Reveal left and right columns
   gsap.utils.toArray(".gsap-about-reveal").forEach((elem: any) => {
@@ -77,8 +79,8 @@
           start: "top 85%",
         },
       }
-    );
-  });
+    )
+  })
 
   // Stagger cards
   gsap.fromTo(
@@ -95,5 +97,5 @@
         start: "top 90%",
       },
     }
-  );
+  )
 </script>

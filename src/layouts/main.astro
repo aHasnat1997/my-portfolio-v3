@@ -3,6 +3,7 @@ import "@/styles/global.css"
 import { ClientRouter } from "astro:transitions"
 import Analytics from "@vercel/analytics/astro"
 import PostHog from "@/components/posthog.astro"
+import TargetCursor from "@/components/ui/TargetCursor"
 
 interface Props {
   title?: string
@@ -80,29 +81,35 @@ const {
   </head>
   <body>
     <Analytics />
+    <TargetCursor
+      client:only="react"
+      spinDuration={10}
+      hideDefaultCursor={true}
+      parallaxOn={true}
+    />
     <slot />
     <script>
-      import Lenis from "lenis";
-      import gsap from "gsap";
-      import { ScrollTrigger } from "gsap/ScrollTrigger";
-      import "lenis/dist/lenis.css";
+      import Lenis from "lenis"
+      import gsap from "gsap"
+      import { ScrollTrigger } from "gsap/ScrollTrigger"
+      import "lenis/dist/lenis.css"
 
       // Register ScrollTrigger
-      gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger)
 
       // Initialize Lenis
-      const lenis = new Lenis();
+      const lenis = new Lenis()
 
       // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
-      lenis.on("scroll", ScrollTrigger.update);
+      lenis.on("scroll", ScrollTrigger.update)
 
       // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
       gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
+        lenis.raf(time * 1000)
+      })
 
       // Disable lag smoothing in GSAP to prevent any delay in scroll animations
-      gsap.ticker.lagSmoothing(0);
+      gsap.ticker.lagSmoothing(0)
     </script>
   </body>
 </html>

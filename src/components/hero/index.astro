@@ -78,7 +78,7 @@ const allIcons = [
         <div class="gsap-hero-fade label mb-6">— operator id: a.hasnat</div>
         <div class="overflow-hidden">
           <h1
-            class="gsap-hero-title display text-foreground"
+            class="gsap-hero-title display cursor-target text-foreground"
             style={{ fontSize: "clamp(3.5rem, 12vw, 11rem)" }}
           >
             Hasnat
@@ -109,7 +109,7 @@ const allIcons = [
         <a
           href="#projects"
           data-hero-cta="view_work"
-          class="border border-terminal bg-terminal/10 px-3 py-2 text-terminal hover:bg-terminal/20"
+          class="cursor-target border border-terminal bg-terminal/10 px-3 py-2 text-terminal hover:bg-terminal/20"
         >
           [ view_work ]
         </a>
@@ -122,7 +122,7 @@ const allIcons = [
         <a
           href="#contact"
           data-hero-cta="contact"
-          class="border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
+          class="cursor-target border border-border px-3 py-2 text-foreground hover:border-terminal hover:text-terminal"
         >
           [ contact ]
         </a>
@@ -196,44 +196,45 @@ const allIcons = [
 </div>
 
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  
-  gsap.registerPlugin(ScrollTrigger);
+  import gsap from "gsap"
+  import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+  gsap.registerPlugin(ScrollTrigger)
 
   function setupHeroTracking() {
-    document.querySelectorAll<HTMLElement>("[data-hero-cta]").forEach((link) => {
-      if (link.dataset.trackingBound) return
-      link.dataset.trackingBound = "true"
-      link.addEventListener("click", () => {
-        window.posthog?.capture("hero_cta_clicked", {
-          cta: link.dataset.heroCta,
+    document
+      .querySelectorAll<HTMLElement>("[data-hero-cta]")
+      .forEach((link) => {
+        if (link.dataset.trackingBound) return
+        link.dataset.trackingBound = "true"
+        link.addEventListener("click", () => {
+          window.posthog?.capture("hero_cta_clicked", {
+            cta: link.dataset.heroCta,
+          })
         })
       })
-    })
   }
 
   document.addEventListener("DOMContentLoaded", setupHeroTracking)
   document.addEventListener("astro:page-load", setupHeroTracking)
 
-  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+  const tl = gsap.timeline({ defaults: { ease: "power4.out" } })
 
   tl.fromTo(
     ".gsap-hero-title",
     { yPercent: 100, autoAlpha: 0 },
     { yPercent: 0, autoAlpha: 1, duration: 1.2, delay: 0.2 }
   )
-  .fromTo(
-    ".gsap-hero-fade",
-    { y: 20, autoAlpha: 0 },
-    { y: 0, autoAlpha: 1, duration: 1 },
-    "-=0.8"
-  )
-  .fromTo(
-    ".gsap-hero-stagger",
-    { y: 30, autoAlpha: 0 },
-    { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.2 },
-    "-=0.6"
-  );
+    .fromTo(
+      ".gsap-hero-fade",
+      { y: 20, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 1 },
+      "-=0.8"
+    )
+    .fromTo(
+      ".gsap-hero-stagger",
+      { y: 30, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.2 },
+      "-=0.6"
+    )
 </script>
-

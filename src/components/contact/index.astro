@@ -58,7 +58,7 @@
                 target="_blank"
                 rel="noreferrer"
                 data-contact-channel={label.replace("_", "")}
-                class="gsap-contact-link group flex items-center gap-5 border border-border bg-card/40 px-5 py-4 transition-all duration-300 hover:border-terminal hover:bg-terminal/5"
+                class="gsap-contact-link group cursor-target flex items-center gap-5 border border-border bg-card/40 px-5 py-4 transition-all duration-300 hover:border-terminal hover:bg-terminal/5"
               >
                 <span class="flex size-9 shrink-0 items-center justify-center border border-border text-lg text-terminal transition-colors group-hover:border-terminal group-hover:bg-terminal/10">
                   {icon}
@@ -137,7 +137,7 @@
       }
       <form
         id="contact-form"
-        action="https://formspree.io/f/YOUR_FORM_ID"
+        action={`https://formspree.io/f/${import.meta.env.PUBLIC_FORMSPREE_API_KEY}`}
         method="POST"
         class="space-y-4"
         novalidate
@@ -155,7 +155,7 @@
               name="name"
               required
               placeholder="John Doe"
-              class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
+              class="contact-input cursor-target w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
             />
           </div>
           <div class="form-field">
@@ -170,7 +170,7 @@
               name="email"
               required
               placeholder="john@example.com"
-              class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
+              class="contact-input cursor-target w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
             />
           </div>
         </div>
@@ -187,7 +187,7 @@
             name="subject"
             required
             placeholder="Project inquiry / Job opportunity / Freelance..."
-            class="contact-input w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
+            class="contact-input cursor-target w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
           />
         </div>
 
@@ -203,14 +203,14 @@
             required
             rows={6}
             placeholder="Tell me about your project, role, or idea..."
-            class="contact-input w-full resize-none border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
+            class="contact-input cursor-target w-full resize-none border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground/50 focus:border-terminal"
           ></textarea>
         </div>
 
         <button
           id="contact-submit"
           type="submit"
-          class="group relative w-full overflow-hidden border border-terminal bg-terminal/10 py-4 text-center text-xs tracking-[0.3em] text-terminal uppercase transition-all duration-300 hover:bg-terminal/20 disabled:cursor-not-allowed disabled:opacity-50"
+          class="group cursor-target relative w-full overflow-hidden border border-terminal bg-terminal/10 py-4 text-center text-xs tracking-[0.3em] text-terminal uppercase transition-all duration-300 hover:bg-terminal/20 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <span id="submit-label">[ transmit_message → ]</span>
           <span id="submit-loading" class="hidden animate-pulse"

@@ -19,7 +19,7 @@
           href="https://softvence.agency/"
           target="_blank"
           id="company-link"
-          class="text-xl hover:underline"
+          class="cursor-target text-xl"
         >
           Softvence Agency
           <span class="label-dim"> May 2025 - Present </span>
@@ -54,7 +54,7 @@
             "Order Tools",
             "High-performance APIs",
           ].map((t) => (
-            <span class="gsap-experience-tag border border-border px-2 py-1 text-muted-foreground transition-colors hover:border-terminal hover:text-terminal cursor-default">
+            <span class="gsap-experience-tag cursor-default border border-border px-2 py-1 text-muted-foreground transition-colors hover:border-terminal hover:text-terminal">
               {t}
             </span>
           ))
@@ -87,10 +87,10 @@
 </section>
 
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import gsap from "gsap"
+  import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger)
 
   function setupCompanyTracking() {
     const link = document.getElementById("company-link")
@@ -121,8 +121,8 @@
           start: "top 85%",
         },
       }
-    );
-  });
+    )
+  })
 
   // Stagger list items
   gsap.fromTo(
@@ -139,7 +139,7 @@
         start: "top 90%",
       },
     }
-  );
+  )
 
   // Stagger tags
   gsap.fromTo(
@@ -156,5 +156,5 @@
         start: "top 95%",
       },
     }
-  );
+  )
 </script>
