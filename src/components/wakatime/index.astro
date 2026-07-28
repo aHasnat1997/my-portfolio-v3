@@ -1,5 +1,5 @@
 ---
-const apiKey = import.meta.env.WAKATIME_API_KEY
+const apiKey = import.meta.env.PUBLIC_WAKATIME_API_KEY
 const encoded = btoa(apiKey + ":")
 
 let data: any = null
@@ -49,18 +49,27 @@ const bestDay = data?.best_day
     ) : (
       <div class="mt-12 space-y-10">
         {/* — stat summary row */}
-        <div class="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3">
+        <div class="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-1">
           {[
-            { label: "// total_coded", value: `${totalHours}h ${totalMins}m` },
+            {
+              label: "// total_coded",
+              value:
+                `${totalHours}h ${totalMins}m` +
+                " " +
+                "from" +
+                " " +
+                (bestDay?.date || "—"),
+            },
+
             // { label: "// daily_avg", value: dailyAvg },
-            {
-              label: "// languages",
-              value: String(data?.languages?.length ?? "—"),
-            },
-            {
-              label: "// projects",
-              value: String(data?.projects?.length ?? "—"),
-            },
+            // {
+            //   label: "// languages",
+            //   value: String(data?.languages?.length ?? "—"),
+            // },
+            // {
+            //   label: "// projects",
+            //   value: String(data?.projects?.length ?? "—"),
+            // },
           ].map((s) => (
             <div class="flex flex-col gap-1 bg-background px-5 py-4">
               <span class="label-dim">{s.label}</span>
@@ -102,7 +111,7 @@ const bestDay = data?.best_day
           {/* — right column: editors + os + best day + categories */}
           <div class="space-y-8">
             {/* best day */}
-            {bestDay && (
+            {/* {bestDay && (
               <div class="grid grid-cols-2 gap-px border border-border bg-border">
                 <div class="flex flex-col gap-1 bg-background px-5 py-4">
                   <span class="label-dim">// best_day</span>
@@ -117,7 +126,7 @@ const bestDay = data?.best_day
                   </span>
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* editors */}
             <div>
