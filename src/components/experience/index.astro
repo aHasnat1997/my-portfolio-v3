@@ -1,68 +1,106 @@
+---
+import { ExperienceData } from "@/constants/experience"
+---
+
 <section id="experience" class="px-4 py-16 lg:px-20">
   <div class="label mb-4">— professional deployment</div>
   <h2
     class="display text-foreground"
     style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)" }}
   >
-    Experience
+    <span class="cursor-target w-fit"> Experience </span>
   </h2>
 
   <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
-    <div class="gsap-experience-reveal">
-      <div class="label mb-3">— current role</div>
-      <h3 class="display text-2xl">Frontend Developer</h3>
-      <div class="mt-1 text-xs tracking-widest text-terminal uppercase">
-        // full-stack responsibilities
-      </div>
-      <div class="mt-4">
-        <a
-          href="https://softvence.agency/"
-          target="_blank"
-          id="company-link"
-          class="cursor-target text-xl"
-        >
-          Softvence Agency
-          <span class="label-dim"> May 2025 - Present </span>
-        </a>
-      </div>
+    <div class="space-y-10">
+      {
+        ExperienceData.map((section) => (
+          <div class="gsap-experience-reveal">
+            <div class="label mb-3">{section.label}</div>
 
-      <div class="label-dim mt-6 mb-2">— primary / day-to-day duties</div>
-      <ul class="space-y-2 text-sm">
-        {
-          [
-            "Developing pixel-perfect, responsive websites with React, Tailwind CSS, Next, js, Redux Toolkit, Zustand, or other state management tools.",
-            "Writing clean, optimized, and cross-browser-compatible code following W3C standards.",
-            "Implementing JavaScript and TypeScript to enhance Ul interactivity.",
-            "Converting PSD, Figma, and XD designs into HTML with high accuracy.",
-            "Integrated REST APIs and optimized frontend performance and data fetching strategies.",
-            "Collaborated with backend and design teams to deliver production-ready features.",
-            "Understanding client requirements and effectively managing feedback.",
-          ].map((t) => (
-            <li class="gsap-experience-list flex gap-3 text-muted-foreground">
-              <span class="text-terminal">▸</span>
-              <span>{t}</span>
-            </li>
-          ))
-        }
-      </ul>
-      <div class="label-dim mt-8 mb-3">— current projects</div>
-      <div class="flex flex-wrap gap-2 text-[10px] tracking-widest uppercase">
-        {
-          [
-            "Admin & billing stack",
-            "Vendor architecture",
-            "Order Tools",
-            "High-performance APIs",
-          ].map((t) => (
-            <span class="gsap-experience-tag cursor-default border border-border px-2 py-1 text-muted-foreground transition-colors hover:border-terminal hover:text-terminal">
-              {t}
-            </span>
-          ))
-        }
-      </div>
+            {section.heading && (
+              <h3 class="display text-2xl">{section.heading}</h3>
+            )}
+
+            {section.subheading && (
+              <div class="mt-1 text-xs tracking-widest text-terminal uppercase">
+                {section.subheading}
+              </div>
+            )}
+
+            {section.company && (
+              <div class="mt-4">
+                <a
+                  href={section.company.href}
+                  target="_blank"
+                  id={section.company.id}
+                  data-company={section.company.trackingCompany}
+                  class="cursor-target text-xl"
+                >
+                  {section.company.name}
+                  <span class="label-dim"> {section.company.date} </span>
+                </a>
+              </div>
+            )}
+
+            {section.bulletLabel && section.bullets && (
+              <>
+                <div class="label-dim mt-6 mb-2">{section.bulletLabel}</div>
+                <ul class="space-y-2 text-sm">
+                  {section.bullets.map((t) => (
+                    <li class="gsap-experience-list flex gap-3 text-muted-foreground">
+                      <span class="text-terminal">▸</span>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            {section.tagLabel && section.tags && (
+              <>
+                <div class="label-dim mt-8 mb-3">{section.tagLabel}</div>
+                <div class="flex flex-wrap gap-2 text-[10px] tracking-widest uppercase">
+                  {section.tags.map((t) => (
+                    <span class="cursor-target gsap-experience-tag cursor-default border border-border px-2 py-1 text-muted-foreground transition-colors hover:border-terminal hover:text-terminal">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {section.description && (
+              <p class="text-sm leading-relaxed text-muted-foreground">
+                {section.description}
+              </p>
+            )}
+
+            {section.mindsetLabel && section.mindset && (
+              <>
+                <div class="label mt-10 mb-3">{section.mindsetLabel}</div>
+                <div class="display space-y-2 text-2xl">
+                  {section.mindset.map((item) => (
+                    <p>
+                      {item.prefix}{" "}
+                      <span class="text-terminal-dim">{item.emphasis}</span>
+                    </p>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {section.closing && (
+              <p class="mt-6 text-xs leading-relaxed tracking-wider text-muted-foreground uppercase">
+                {section.closing}
+              </p>
+            )}
+          </div>
+        ))
+      }
     </div>
 
-    <div class="gsap-experience-reveal">
+    <div class="gsap-experience-reveal lg:sticky lg:top-4 lg:self-start">
       <div class="label mb-3">— skill summary</div>
       <p class="text-sm leading-relaxed text-muted-foreground">
         Working on production-level applications involving frontend systems,
@@ -98,7 +136,7 @@
     link.dataset.trackingBound = "true"
     link.addEventListener("click", () => {
       window.posthog?.capture("company_link_clicked", {
-        company: "softvence_agency",
+        company: link.dataset.company ?? "softvence_agency",
       })
     })
   }

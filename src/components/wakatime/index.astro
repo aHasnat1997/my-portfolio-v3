@@ -1,4 +1,5 @@
 ---
+// wakatime stats component
 const apiKey = import.meta.env.PUBLIC_WAKATIME_API_KEY
 const encoded = btoa(apiKey + ":")
 
@@ -27,6 +28,38 @@ const topEditors = data?.editors ?? []
 const topOS = data?.operating_systems ?? []
 const topCategories = data?.categories?.slice(0, 4) ?? []
 const bestDay = data?.best_day
+
+// GitHub contributions graph
+// const query = `
+//   query($userName: String!) {
+//     user(login: $userName) {
+//       contributionsCollection {
+//         contributionCalendar {
+//           totalContributions
+//           weeks {
+//             contributionDays {
+//               contributionCount
+//               date
+//               color
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `
+
+// const res = await fetch("https://api.github.com/graphql", {
+//   method: "POST",
+//   headers: {
+//     Authorization: `bearer ${import.meta.env.GITHUB_TOKEN}`,
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify({ query, variables: { userName: "aHasnat1997" } }),
+// })
+
+// const { data: githubData } = await res.json()
+// const weeks = githubData.user.contributionsCollection.contributionCalendar.weeks
 ---
 
 <section class="px-4 py-16 lg:px-20">
@@ -35,10 +68,10 @@ const bestDay = data?.best_day
     class="display text-foreground"
     style="font-size: clamp(2.5rem, 7vw, 6rem)"
   >
-    Code Stats
+    <span class="cursor-target w-fit"> Code Stats </span>
   </h2>
   <p class="mt-3 text-[11px] tracking-widest text-muted-foreground uppercase">
-    // powered by wakatime // last_year data
+    // powered by wakatime & github // last_year data
   </p>
 
   {
@@ -206,4 +239,37 @@ const bestDay = data?.best_day
       </div>
     )
   }
+
+  <!-- <div class="contribution-graph">
+    {
+      weeks.map((week) => (
+        <div class="week">
+          {week.contributionDays.map((day) => (
+            <div
+              class="day"
+              style={`background-color: ${day.color}`}
+              title={`${day.date}: ${day.contributionCount} contributions`}
+            />
+          ))}
+        </div>
+      ))
+    }
+  </div> -->
 </section>
+
+<style>
+  .contribution-graph {
+    display: flex;
+    gap: 3px;
+  }
+  .week {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .day {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+</style>
