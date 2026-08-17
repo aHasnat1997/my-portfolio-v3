@@ -1,5 +1,9 @@
 ---
-import { ProjectsData } from "@/constants/projects"
+import type { Project } from "@/constants/projects"
+
+const base = import.meta.env.DEV ? "http://localhost:4321" : Astro.url.origin
+const res = await fetch(`${base}/api/projects`)
+const ProjectsData: Project[] = await res.json()
 ---
 
 <section id="projects" class="px-4 py-16 lg:px-20">

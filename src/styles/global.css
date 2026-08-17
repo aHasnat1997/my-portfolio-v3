@@ -182,3 +182,29 @@
     }
   }
 }
+
+::view-transition-old(root) {
+  animation: cube-out 700ms ease-in-out both;
+  transform-origin: right center;
+}
+::view-transition-new(root) {
+  animation: cube-in 700ms ease-in-out both;
+  transform-origin: left center;
+}
+
+@keyframes cube-out {
+  from {
+    transform: perspective(1500px) rotateY(0deg) translateZ(0);
+  }
+  to {
+    transform: perspective(1500px) rotateY(-90deg) translateZ(-200px);
+  }
+}
+@keyframes cube-in {
+  from {
+    transform: perspective(1500px) rotateY(90deg) translateZ(-200px);
+  }
+  to {
+    transform: perspective(1500px) rotateY(0deg) translateZ(0);
+  }
+}

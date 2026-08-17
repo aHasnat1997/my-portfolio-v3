@@ -1,5 +1,9 @@
 ---
-import { ExperienceData } from "@/constants/experience"
+import type { ExperienceCard } from "@/constants/experience"
+
+const base = import.meta.env.DEV ? "http://localhost:4321" : Astro.url.origin
+const res = await fetch(`${base}/api/experience`)
+const ExperienceData: ExperienceCard[] = await res.json()
 ---
 
 <section id="experience" class="px-4 py-16 lg:px-20">
