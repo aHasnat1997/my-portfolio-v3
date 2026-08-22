@@ -96,22 +96,38 @@ const {
       import { ScrollTrigger } from "gsap/ScrollTrigger"
       import "lenis/dist/lenis.css"
 
-      // Register ScrollTrigger
       gsap.registerPlugin(ScrollTrigger)
 
-      // Initialize Lenis
-      const lenis = new Lenis()
+      let lenis: Lenis | undefined
 
-      // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
-      lenis.on("scroll", ScrollTrigger.update)
+      function raf(time: number) {
+        lenis?.raf(time * 1000)
+      }
 
-      // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000)
+      function initLenis() {
+        lenis = new Lenis()
+        lenis.on("scroll", ScrollTrigger.update)
+        gsap.ticker.add(raf)
+        gsap.ticker.lagSmoothing(0)
+      }
+
+      function destroyLenis() {
+        gsap.ticker.remove(raf)
+        lenis?.destroy()
+        lenis = undefined
+      }
+
+      // first load
+      initLenis()
+
+      // tear down before the old page is swapped out
+      document.addEventListener("astro:before-swap", destroyLenis)
+
+      // set up fresh after the new page is in the DOM
+      document.addEventListener("astro:page-load", () => {
+        initLenis()
+        ScrollTrigger.refresh()
       })
-
-      // Disable lag smoothing in GSAP to prevent any delay in scroll animations
-      gsap.ticker.lagSmoothing(0)
     </script>
   </body>
 </html>

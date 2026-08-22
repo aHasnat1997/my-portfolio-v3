@@ -183,7 +183,7 @@
   }
 }
 
-::view-transition-old(root) {
+/* ::view-transition-old(root) {
   animation: cube-out 700ms ease-in-out both;
   transform-origin: right center;
 }
@@ -206,5 +206,34 @@
   }
   to {
     transform: perspective(1500px) rotateY(0deg) translateZ(0);
+  }
+} */
+
+::view-transition-old(root) {
+  animation: scale-out 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+::view-transition-new(root) {
+  animation: scale-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes scale-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
